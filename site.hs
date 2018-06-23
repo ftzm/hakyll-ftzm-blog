@@ -1,4 +1,3 @@
-
 ---------------------------------------------------------------------------------
 
 {-# LANGUAGE OverloadedStrings #-}
@@ -22,12 +21,14 @@ import           Text.Blaze.Html                 (toHtml, toValue, (!))
 import qualified Text.Blaze.Html5                as H
 import qualified Text.Blaze.Html5.Attributes     as A
 
-import Debug.Trace
-
 --------------------------------------------------------------------------------
 
 main :: IO ()
 main = hakyll $ do
+    match "fonts/*" $ do
+        route   idRoute
+
+        compile copyFileCompiler
     match "images/*" $ do
         route   idRoute
         compile copyFileCompiler
@@ -36,13 +37,13 @@ main = hakyll $ do
         route   idRoute
         compile compressCssCompiler
 
-    match (fromList ["about.rst", "contact.markdown"]) $ do
+    match (fromList ["about.org"]) $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
+            >>= loadAndApplyTemplate "templates/basic.html" defaultContext
             >>= loadAndApplyTemplate "templates/default.html" defaultContext
             >>= relativizeUrls
 
-    -- build up tags
     tags <- buildTags "posts/*" (fromCapture "tags/*.html")
 
     --tagsRules tags $ \tag identifiers -> do
@@ -55,7 +56,6 @@ main = hakyll $ do
             let ctx = constField "title" title
                       `mappend` listField "posts" postCtx (return posts)
                       `mappend` defaultContext
-
             makeItem ""
                 >>= loadAndApplyTemplate "templates/tag.html" ctx
                 >>= loadAndApplyTemplate "templates/default.html" ctx
@@ -101,7 +101,7 @@ main = hakyll $ do
     create ["archive.html"] $ do
         route idRoute
         compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
+            posts <- recentFirst =<< loadAll ("posts/*" .&&. hasVersion "html")
             let archiveCtx =
                     listField "posts" postCtx (return posts) `mappend`
                     constField "title" "Archives"            `mappend`
@@ -112,28 +112,18 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/default.html" archiveCtx
                 >>= relativizeUrls
 
-
     match "index.html" $ do
         route idRoute
-        compile $ do
-            posts <- recentFirst =<< loadAll ("posts/*" .&&. hasVersion "html")
-            let indexCtx =
-                    listField "posts" postCtx (return posts) `mappend`
-                    constField "title" "Home"                `mappend`
-                    defaultContext
-
-            getResourceBody
-                >>= applyAsTemplate indexCtx
-                >>= loadAndApplyTemplate "templates/default.html" indexCtx
-                >>= relativizeUrls
+        compile $ makeItem $ Redirect "blog.html"
 
     match "blog.html" $ do
         route idRoute
         compile $ do
             posts <- recentFirst =<< loadAll ("posts/*" .&&. hasVersion "html")
             let blogCtx =
-                    listField "posts" postCtx (return $ take 3 posts) `mappend`
-                    listField "tags" tagCtx (return $ tagList tags) `mappend`
+                    listField "latest_posts" (postCtxWithTags tags) (return $ take 3 posts) `mappend`
+                    listField "later_posts" postCtx (return $ drop 3 posts) `mappend`
+                    listField "alltags" tagCtx (return $ tagList tags) `mappend`
                     constField "title" "Blog"                `mappend`
                     defaultContext
 
@@ -152,8 +142,12 @@ postCtx
   =  dateField "date" "%B %e, %Y"
   <> defaultContext
 
+
 --------------------------------------------------------------------------------
 -- Tags
+
+postCtxWithTags :: Tags -> Context String
+postCtxWithTags t = tagsCtx t <> postCtx
 
 tagsCtx :: Tags -> Context String
 tagsCtx = tagsFieldCustom "tags"
@@ -219,7 +213,6 @@ sortOnM f xs = (map fst . sortBy (comparing snd) . zip xs) <$> mapM f xs
 
 -- inspired by http://hakyll.narkive.com/RqvLp93d/setversion-and-a-pattern
 -- since fromList and versions don't mix easily as per the docs of that function,
--- copy the short source code for the function tagsRules and remove
 -- "fromList". This means that in the body of the tagsRules' section,
 -- posts <- recentFirst =<< loadAll pat
 -- becomes

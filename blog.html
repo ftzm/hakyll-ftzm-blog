@@ -2,79 +2,29 @@
 title: Home
 ---
 
-<section class="hero is-primary">
-    <div class="hero-body">
-        <div class="container">
-            <div class="columns">
-                <div class="column is-8 is-offset-2">
-		  <div class="columns">
-		  <div class="column is-narrow">
-		  <div class="circle-logo">
-<svg class="circle-logo" height="54" width="54" version="1.1" viewBox="0 0 55.562 71.438" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
- <metadata>
-  <rdf:RDF>
-   <cc:Work rdf:about="">
-    <dc:format>image/svg+xml</dc:format>
-    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-    <dc:title/>
-   </cc:Work>
-  </rdf:RDF>
- </metadata>
- <g transform="translate(-71.438 -8.6042)">
-  <path d="m127 64.167-27.781 15.875-27.781-15.875 27.781-55.562 9.7751 19.55-9.7751 5.5858v6.6146l12.347-7.0554 2.5726 5.1446-14.92 8.5255v6.6146l17.492-9.9954 2.5726 5.1446-20.064 11.465v6.6146l22.636-12.935z" style="stroke-width:0"/>
- </g>
-</svg>
-</div>
-		  </div>
-		  <div class="column">
-                    <p class="title">
-                        Blog
-                    </p>
-                    <p class="subtitle">
-                        this is where I keep my articles.
-                    </p>
-		  </div>
-		  </div>
-                </div>
+            <div class="blog-left">
+		<h2 class="pad-below"><u>Latest</u></h2>
+                $partial("templates/post-list-latest.html")$
             </div>
-        </div>
-    </div>
-</section>
-
-<section class="section">
-    <div class="container">
-        <div class="columns">
-            <div class="column is-8 is-offset-2">
-                <p>Posts are divided by topic and sorted by date. You can find my most recent posts below, or you can find the complete back-catalogue in the <a href="/archive.html">archives</a>.</p>
-		<br/>
-		<br/>
-        <div class="columns">
-            <div class="column is-three-fifths">
-	        <div class="archive-title">
-                Latest Posts
-	        </div>
-                $partial("templates/post-list.html")$
-
-
-
-            </div>
-            <div class="column">
-	        <div class="archive-title">
-                Browse by Tags
-	        </div>
-	      <div style="column-count: 2; column-gap: 2rem;">
-                <ul>
-                    $for(tags)$
-		    <div class="archive-row">
-                      <li><a class="tag-link" href="$url$"><span class="is-uppercase">$name$</span><span style="float: right">$count$</span></a></li>
-		    </div>
+            <div class="blog-right">
+		<h2 class="pad-below"><u>Tags</u></h2>
+		    <div class="tag-columns">
+                <ul class="bare-list">
+                    $for(alltags)$
+                    <li class="tag-row">
+		      <a class="tag-link">
+			<div>
+			  <div class="tag-name">$name$</div><div class="tag-count">$count$</div>
+			</div>
+		      </a>
+		    </li>
                     $endfor$
                 </ul>
-	      </div>
+		    </div>
             </div>
-        </div>
-            </div>
-        </div>
+	    <div class="green-border"> </div>
 
-    </div>
-</section>
+	    <div class="blog-later">
+		<h2 class="pad-below">Archive</h2>
+                $partial("templates/post-list-later.html")$
+	    </div>

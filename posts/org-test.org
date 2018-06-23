@@ -1,8 +1,8 @@
 ---
-title: Org mode is the best, holy smokes
+title: Org mode and hakyll, holy smokes
 published: 2018-05-01
-teaser: Relationship objects make it easy to include additional information about the nature of the relationship between two entities. However, it can still be clumsy to work with them using the standard configuration.
-tags: flask, sqlalchemy, database
+teaser: Writing hakyll posts with org mode works well and allows a great emacs-based workflow.
+tags: hakyll, org, emacs
 ---
 
 * This is a big title
@@ -13,6 +13,7 @@ This is a list:
 - this is a list
 - another element
 - another element
+*** this is smaller still
 ** Source
 Wouldn't it be interesting to see some source?
 Here's some now:

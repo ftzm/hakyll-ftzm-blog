@@ -1,38 +1,28 @@
-<section class="section">
-    <div class="container">
-    <div class="content">
-        <div class="columns">
-            <div class="column is-8 is-offset-2">
-                    <div class="display-title">
-                        $title$
-                    </div class="title">
-		    <hr class="accent">
-                    $date$ $if(tags)$ $tags$ $endif$<br><br>
+<div class="display-title">
+    $title$
+</div>
+<hr class="accent"> <span class="date">$date$</span> $if(tags)$ $tags$ $endif$
 
-		    <div class="has-text-justified">
-		    <p>
-		    $body$
-		    </p>
-		    </div>
+<div class="has-text-justified">
+    <p>
+        $body$
+    </p>
+</div>
 
-		    <div class="related">
-		    <div class="archive-title">
-		    Related Posts
-		    </div>
+<div class="related">
+    <div class="archive-title" >
+        Related Posts
+    </div>
 
-		    <div class="columns">
-	            $for(related)$
-		      <div class="column">
-			<div class="archive-row">
-			    <span class="related-date" style="margin-bottom: 0px;"> $date$ </span>
-			    <a class="post-link" href="$url$">$title$</a>
-			    <p class="teaser"> $teaser$ </p>
-			</div>
-		      </div>
-		    $endfor$
-		    </div>
-		    </div>
+    <div>
+        $for(related)$
+        <div class="related-box">
+            <div class="archive-row">
+                <span class="archive-date" style="margin-bottom: 0px;"> $date$ </span>
+                <a class="post-link" href="$url$">$title$</a>
+                <p class="teaser"> $teaser$ </p>
             </div>
         </div>
-        </div>
-</section>
+        $endfor$
+    </div>
+</div>
