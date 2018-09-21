@@ -10,23 +10,23 @@ $main-title: black;
 $archive-accent: #eee;
 $off-black: #4a4a4a;
 
+
+// ----------------------------------------------------------------------------
+// Standard elements
+
 html, body, p, ol, ul, li, dl, dt, dd, blockquote, figure, fieldset, legend, textarea, pre, iframe, hr, h1, h2, h3, h4, h5, h6 {
     padding: 0;
 }
 
-::before, ::after {
+*, *:before, *:after {
     box-sizing: inherit;
-
 }
 
 html {
     text-rendering: optimizeLegibility;
     box-sizing: border-box;
     margin: 0;
-}
-
-* {
-    box-sizing: inherit;
+    font-family: Source Sans Pro;
 }
 
 body {
@@ -36,11 +36,6 @@ body {
     font-weight: 400;
     line-height: 1.5;
     margin: 0;
-}
-
-span {
-    font-style: inherit;
-    font-weight: inherit;
 }
 
 a {
@@ -75,48 +70,42 @@ h3 {
     font-size: 1.5rem;
 }
 
-code, pre {
-    font-family: monospace;
+h2>u {
+    text-decoration: none;
+    border-bottom: 3px solid $primary;
 }
 
-code {
-    background-color: whitesmoke;
-}
+// ----------------------------------------------------------------------------
+// Nav
 
-pre {
-    background-color: whitesmoke;
-    color: #4a4a4a;
-    font-size: 0.875rem;
-    padding: 0.75rem;
-}
-
-.side-blurb {
-    display: block;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-}
-
-.blurb-link {
-  color: $primary;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.bare-list {
-    list-style: none;
-    margin: 0;
-}
-
-.sidebar-content {
+nav {
     display: block;
     position: fixed;
     top: 25%;
     left: calc(50% - 730px);
     width: 250px;
-    font-family: Roboto;
 }
 
-.side-link {
+nav p {
+    display: block;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+}
+
+nav p a {
+    box-shadow: none;
+    text-decoration: none;
+    color: $primary;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+}
+
+nav ul a {
     font-family: "mont";
     color: $off-black;
 }
@@ -126,7 +115,84 @@ pre {
     margin-bottom: 1.5rem;
 }
 
-.main {
+nav span {
+    font-family: "mont";
+    font-size: 1.5rem;
+    color: #0a0a0a;
+}
+
+
+// ----------------------------------------------------------------------------
+// Code
+
+div.sourceCode, code pre {
+    color: #4a4a4a;
+    font-family: monospace;
+    background-color: whitesmoke;
+}
+
+pre {
+    font-size: 0.875rem;
+    padding: 0.75rem;
+}
+
+p > code {
+    background-color: whitesmoke;
+    font-size: 0.875rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.15rem;
+    padding-bottom: 0.15rem;
+}
+
+// ----------------------------------------------------------------------------
+// toc
+
+.toc {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
+.toc > ul {
+    border-left: 4px solid $primary;
+    padding-top: 0rem;
+    padding-bottom: 0rem;
+    padding-left: 1.5rem;
+    color: $off-black;
+    font-weight: bold;
+}
+
+.toc li {
+    list-style: none;
+    line-height: 1.5;
+}
+
+.toc li > ul {
+    padding-left: 0.9rem;
+    margin-left: 0.1rem;
+    color: gray;
+    font-weight: 300;
+}
+
+.toc a {
+    color: inherit;
+    font-weight: inherit;
+}
+
+.toc a:hover {
+    color: $primary;
+    font-weight: inherit;
+}
+
+
+// ----------------------------------------------------------------------------
+//
+.bare-list {
+    list-style: none;
+    margin: 0;
+}
+
+main {
     padding-top: 4.5rem;
     width: 800px;
     display: block;
@@ -135,12 +201,12 @@ pre {
 }
 
 .blog-left {
-    width: 400px;
+    width: 450px;
     float: left;
 }
 
 .blog-right {
-    width: 350px;
+    width: 300px;
     float: right;
 }
 
@@ -158,22 +224,11 @@ svg.top-logo {
     fill: $primary;
 }
 
-.logo {
-    font-family: "mont";
-    font-size: 1.5rem;
-    color: #0a0a0a;
-}
-
 .date {
-    font-family: Roboto;
     font-weight: bold;
     margin-right: 1rem;
 }
 
-
-svg.circle-logo{
-    fill: black;
-}
 
 .green-border {
     margin-top: 2rem;
@@ -195,7 +250,6 @@ svg.circle-logo{
     padding-bottom: 2rem;
     padding-top: 0;
     break-inside: avoid;
-    font-family: Roboto;
     text-transform: uppercase;
 }
 
@@ -227,7 +281,7 @@ svg.circle-logo{
     padding-left: 0.75rem;
     padding-right: 0.75rem;
     white-space: nowrap;
-    font-family: Roboto;
+    font-weight: bold;
 }
 
 .tag-link {
@@ -239,14 +293,8 @@ svg.circle-logo{
     padding-top: 0px;
     padding-bottom: 2px;
     margin-bottom: 0px;
-    font-family: Roboto;
     display: block;
     font-size: 0.875rem;
-}
-
-h2>u {
-    text-decoration: none;
-    border-bottom: 3px solid $primary;
 }
 
 .pad-below {
@@ -281,7 +329,6 @@ hr.accent {
 p {
     font-weight: 400;
     font-size: 1.2rem;
-    font-family: "Source Sans Pro";
     text-justify: auto !important;
     margin-bottom: 1.5rem;
     margin-top: 0px;
@@ -324,35 +371,36 @@ p>a {
 }
 
 @media screen and (max-width: 1580px) {
-  .sidebar-content {
+  nav {
       left: 60px
   }
-  .main {
+  main {
       margin-left: 390px;
   }
 }
 @media screen and (max-width: 1200px) {
-  .main {
+  main {
       margin-left: 5vw;
       margin-right: 5vw;
       width: 90%;
       padding-top: 3rem;
   }
-  .sidebar-content {
+
+// ----------------------------------------------------------------------------
+// Nav
+
+  nav {
       background-color: whitesmoke;
       left: 0;
       display: block;
       position: relative;
-      margin-top: 0px;
-      margin-bottom: 0px;
-      margin-left: 0;
-      margin-right: 0;
+      margin: 0px;
       padding-top: 15px;
       padding-bottom: 15px;
       padding-left: 5vw;
       width: 100%;
   }
-  .sidebar-content::after {
+  nav::after {
       content: " ";
       display: block;
       height: 0;
@@ -363,15 +411,15 @@ p>a {
       float: left;
       margin-bottom: 0;
   }
-  .logo {
+  nav span {
       float: left;
       display: none;
   }
-  .side-list {
+  nav ul {
       margin-top: 1px;
       float: left;
   }
-  ul.side-list > li {
+  nav li {
       font-size: 1.5rem;
       display: inline-block;
       /* You can also add some margins here to make it look prettier */
@@ -381,12 +429,15 @@ p>a {
       margin-left: 27px;
   }
 
-  ul.side-list > li + li {
+  nav li + li {
       margin-left: 20px;
   }
-  .side-blurb {
+  nav p {
       display: none;
   }
+
+// ----------------------------------------------------------------------------
+
   .blog-left {
       width: 100%;
   }
@@ -407,7 +458,7 @@ p>a {
   }
   .tag-columns {
       columns: 3;
-      column-gap: 1.5rem;
+      column-gap: 2.5rem;
   }
 
   h1, h2, h3, h4, h5, h6 {

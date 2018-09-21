@@ -4,7 +4,10 @@ title: Home
 
             <div class="blog-left">
 		<h2 class="pad-below"><u>Latest</u></h2>
-                $partial("templates/post-list-latest.html")$
+		<ul class="bare-list">
+		    $for(latest_posts)$
+			$partial("templates/post-list-item.html")$
+		    $endfor$
             </div>
             <div class="blog-right">
 		<h2 class="pad-below"><u>Tags</u></h2>
@@ -26,5 +29,9 @@ title: Home
 
 	    <div class="blog-later">
 		<h2 class="pad-below">Archive</h2>
-                $partial("templates/post-list-later.html")$
+		<ul class="bare-list">
+		    $for(later_posts)$
+			$partial("templates/post-list-item.html")$
+		    $endfor$
+		</ul>
 	    </div>

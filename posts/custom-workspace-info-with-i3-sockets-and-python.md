@@ -11,7 +11,7 @@ Thankfully, i3 provides an interprocess communication interface. External progra
 
 Having learned the rudiments of communicating with i3 using Python, I thought I'd explain the more technical points for others in a similar situation. I'll show how to connect to i3, subscribe to workspace events, and output a string based on the current workspace info. This was my use-case, but the same methods can be employed to a variety of other ends.
 
-##0. Necessary Modules##
+## 0. Necessary Modules
 
 ```python
 import socket
@@ -19,7 +19,7 @@ import struct
 import json
 ```
 
-##1. Initializing a Socket##
+## 1. Initializing a Socket
 
 Firstly, if you're going to be dealing with more than one socket (and if you want to subscribe to events, you will), you're going to want to create a Socket class. We'll initialize sockets in the init method of that class. The steps for initialization are straightforward: create a socket object with the socket module, set a timeout, and connect.
 
@@ -34,7 +34,7 @@ self.sock.connect(socket_path)
 
 All the functions that follow will be methods of the above Socket class.
 
-##2. Formatting Message##
+## 2. Formatting Message
 
 All messages sent to i3 are composed of the following components:
 1. The "magic string" of "i3-ipc", which lets i3 know when a message begins.
@@ -55,7 +55,7 @@ msg = msg.encode('utf-8')
 return msg
 ```
 
-##3. Send and Receiving Messages##
+## 3. Send and Receiving Messages
 
 Sending a message is quite trivial:
 
@@ -134,7 +134,7 @@ return data
 You'll notice that I've added an extra "get" method, because you'll almost always want to send and receive in succession.
 
 
-##5. Subscribing##
+## 4. Subscribing
 
 This is where the multiple sockets comes in. If you use the same socket to receive event messages as you do to make queries, from time to time you will send a request for information, and get an event message before the response, which will confuse your script. Using one socket to receive event messages and another for queries is a lot easier than building in a mechanism to handle unexpected messages, and the former is indeed recommended by the i3 IPC docs.
 
@@ -152,7 +152,7 @@ subscription = sub_sock.get(2, payload)
 
 We use get and fill the "subscription" variable because a subscription attempt returns a message saying whether or not the subscription was successful or a parse error ocurred. You'll at least want to retreive to get it out of the way, if not to evaluate it in some way.
 
-##6. Listen For Events##
+## 5. Listen For Events
 
 With a subscription secured, event messages will be incoming, and we'll need to be listening for them. A "listen" function like the following will have to be added to the Socket class. It loops forever trying to receive a message, and simply continues if a reception attempt times out (which it will if there's nothing to receive, and the majority of the time there won't be).
 
@@ -169,7 +169,7 @@ except socket.timeout:
 continue
 ```
 
-##7. Get and Print Workspace Info##
+## 6. Get and Print Workspace Info
 
 The problem with workspace events is that they only report information relevent to the current workspace. To get an overview of all workspaces we need to make a separate query for workspace information. You'll notice that the listen method takes an optional callback function. It's this function that we'll use to query for workspace info, format it, and then print it for external use (in this case lemonbar). You'll notice it queries using the "data_sock" socket for reasons discussed above.
 
@@ -198,7 +198,7 @@ The above function gets a bit of information about the workspaces, labels them w
 sub_sock.subscribe('workspace', print_workspaces)
 ```
 
-##8. In Sum##
+## 7. In Sum
 
 With that we have working script that gets and receives messages from i3, subscribes to workspace events, listens for event messages, and then runs a callback function to get and print the workspace info we want. While specific to my use-case, this example covers all of the basics of communicating with i3 with Python. With a little research in the i3-IPC documentation it should be easy to adapt or expand it to other tasks.
 

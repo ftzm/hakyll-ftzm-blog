@@ -1,1 +1,10 @@
-$partial("templates/post-list.html")$
+<div class="display-title">
+    $title$
+</div>
+<hr class="accent">
+
+<ul class="bare-list">
+    $for(posts)$
+	$partial("templates/post-list-item.html")$
+    $endfor$
+</ul>

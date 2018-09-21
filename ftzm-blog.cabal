@@ -25,4 +25,5 @@ executable ftzm-blog
                        yaml,
                        text,
                        vector,
-                       split
+                       split,
+                       pandoc

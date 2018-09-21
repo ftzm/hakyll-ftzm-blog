@@ -1,74 +1,25 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>$title$</title>
-    <link rel="stylesheet" type="text/css" href="/css/mystyles.css" />
-    <link rel="stylesheet" type="text/css" href="/css/espresso.css" />
-    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Signika" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,600,700|Source+Sans+Pro:400,600" rel="stylesheet">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-    <link rel="manifest" href="/images/site.webmanifest">
-    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
-    <link rel="shortcut icon" href="/images/favicon.ico">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-config" content="/images/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
-
-
+    $partial("templates/head.html")$
 </head>
-
 <body>
-
-  <div class="sidebar-content">
-
-<svg id="logo" enable-background="new 0 0 617.0444 301" overflow="visible" version="1.1" viewBox="0 0 297.41 246.5" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
-			<path d="m156.25 186.42h141.16v-114.92h-87.586l-7.6172 24.736h-19.531l-10.461 42.444c-1.8086 6.3047-3.5964 12.255-5.3633 17.852-1.7668 5.5966-3.5127 10.84-5.2383 15.729-1.7256 4.8882-3.4304 9.422-5.1152 13.602-0.0823 0.2042-0.16193 0.35804-0.24415 0.56055z" style="fill:#00d1b2;stroke-width:0"/><path d="m103.38 71.5h-103.38v114.92h97.061c1.6666-5.8447 2.156-7.1402 4.7148-16.43l20.76-73.826h-25.477z" style="fill:#00d1b2;stroke-width:0"/><path d="m123.38 71.5-1.8906 8.5h25.477l-25.188 89.992c-2.5589 9.2895-3.0482 10.585-4.7148 16.43h19.191c0.0822-0.20251 0.16183-0.35635 0.24415-0.56055 1.6848-4.1796 3.3896-8.7134 5.1152-13.602 1.7256-4.8882 3.4714-10.132 5.2383-15.729 1.7668-5.5966 3.5547-11.547 5.3633-17.852l15.695-58.68h19.531l2.3828-8.5h-19.414z" style="fill:#00d1b2;stroke-width:0"/><path d="m189.82 71.5-2.3828 8.5h-19.531l-15.695 58.68c-7.2344 25.219-14.133 44.773-20.711 58.656-9.3359 19.594-19.383 33.125-30.133 40.594-8.1719 5.7109-16.352 8.5703-24.531 8.5703-5.3281 0-9.8672-1.6016-13.602-4.7969-2.75-2.2266-4.1328-5.1172-4.1328-8.6719 0-2.8438 1.125-5.3125 3.3516-7.3984 2.2422-2.0938 4.9844-3.1328 8.2266-3.1328 2.375 0 4.3672 0.75 5.9844 2.2656 1.6328 1.5 2.4375 3.2344 2.4375 5.1875s-0.8516 3.7656-2.5547 5.4531c-1.2969 1.2422-1.9453 2.1719-1.9453 2.7969 0 0.7969 0.3125 1.4219 0.9219 1.8672 0.7891 0.6172 2.0156 0.9297 3.6719 0.9297 3.7656 0 7.7188-1.1953 11.867-3.5703 4.1641-2.3828 7.8594-5.9297 11.086-10.641 3.2422-4.7266 6.2969-11.531 9.1875-20.43 1.2969-3.6797 4.7734-15.805 10.438-36.367l25.188-89.993h-25.477l1.8906-8.5c8.1172 0 13.789-0.5 17.023-1.5156 3.2266-1.0156 6.1875-2.9531 8.875-5.8203 2.6875-2.8594 5.8906-8.2109 9.6094-16.055 4.9844-10.57 9.75-18.766 14.312-24.586 6.2422-7.8359 12.805-13.719 19.688-17.641s13.367-5.8828 19.445-5.8828c6.4141 0 11.562 1.6953 15.445 5.0703 3.8828 3.3828 5.8281 7.0469 5.8281 11 0 3.0781-1.0156 5.6641-3.0313 7.7734s-4.6016 3.1563-7.7578 3.1563c-2.7188 0-4.9375-0.7891-6.6484-2.375-1.7109-1.5781-2.5625-3.4688-2.5625-5.6719 0-1.4063 0.5781-3.1406 1.75-5.2109 1.1641-2.0625 1.75-3.4531 1.75-4.1563 0-1.2266-0.3672-2.1484-1.0859-2.7656-1.0469-0.875-2.5781-1.3203-4.5938-1.3203-5.0781 0-9.625 1.8281-13.656 5.4766-5.3984 4.8438-10.227 12.414-14.492 22.727-2.1797 5.3906-6.4688 17.984-12.867 37.797h19.414z"/>
-<flowRoot transform="translate(-82.326 -27.25)" style="fill:#000000;font-family:sans-serif;font-size:40px;letter-spacing:0px;line-height:1.25;word-spacing:0px" xml:space="preserve"><flowRegion><rect x="-2.7812" y="18.249" width="88.07" height="76.945"/></flowRegion><flowPara/></flowRoot></svg>
-
-    <a class="" href="/">
-    <span class="logo">fitzsimmons.io<span/>
-    </a>
-
-
-    <span class="side-blurb">
-    Cloud infrastructure and devops at <a href="https://www.tempo.io" class="blurb-link">Tempo</a>. Functional programming enthusiast. Linux nerd.
-    </span>
-
-    <ul class="bare-list side-list">
-      <li><a class="side-link" href="/blog.html">Blog</a></li>
-      <li><a class="side-link" href="/projects.html">Projects</a></li>
-      <li><a class="side-link" href="/about.html">About</a></li>
-    </ul>
-
-  </div>
-
-    <div class="main">
+    <nav>
+	<a href="/blog.html">
+	$partial("templates/logo.html")$
+	<span>fitzsimmons.io</span>
+	</a>
+	<p>
+	    Cloud infrastructure and devops at <a href="https://www.tempo.io">Tempo</a>. Functional programming enthusiast. Linux nerd.
+	</p>
+	<ul>
+	    <li><a href="/blog.html">Blog</a></li>
+	    <li><a href="/projects.html">Projects</a></li>
+	    <li><a href="/about.html">About</a></li>
+	</ul>
+    </nav>
+    <main>
         $body$
-    </div>
-
-    <script>
-        function navToggle() {
-	    // toggle css or nav parent element
-            var navbar = document.getElementById("navbar");
-            navbar.classList.toggle("active-navbar");
-
-	    // prevent scrolling while the menu is triggered
-	    var fixed = document.getElementById("navbar");
-	    fixed.addEventListener("touchmove", function(e) {
-              e.preventDefault();
-            }, false);
-        }
-    </script>
-
+    </main>
 </body>
-
 </html>

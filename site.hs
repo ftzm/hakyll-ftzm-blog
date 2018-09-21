@@ -2,7 +2,7 @@
 
 {-# LANGUAGE OverloadedStrings #-}
 
-import           Data.Monoid (mappend, (<>))
+import           Data.Monoid                     (mappend, (<>))
 import           Data.List                       (intersperse, find, sortOn, reverse, delete, sortBy)
 import           Data.List.Split                 (splitOn)
 import           Data.Ord                        (comparing)
@@ -20,38 +20,34 @@ import           Hakyll
 import           Text.Blaze.Html                 (toHtml, toValue, (!))
 import qualified Text.Blaze.Html5                as H
 import qualified Text.Blaze.Html5.Attributes     as A
+import           Text.Pandoc
 
 --------------------------------------------------------------------------------
 
 main :: IO ()
 main = hakyll $ do
-    match "fonts/*" $ do
-        route   idRoute
 
-        compile copyFileCompiler
-    match "images/*" $ do
-        route   idRoute
-        compile copyFileCompiler
+    match "fonts/*" $ route idRoute >> compile copyFileCompiler
+    match "images/*" $ route idRoute >> compile copyFileCompiler
+    match "css/*" $ route idRoute >> compile compressCssCompiler
+    match "templates/*" $ compile templateCompiler
+    tags <- buildTags "posts/*" (fromCapture "tags/*.html")
 
-    match "css/*" $ do
-        route   idRoute
-        compile compressCssCompiler
+    match "index.html" $ do
+        route idRoute
+        compile $ makeItem $ Redirect "blog.html"
 
-    match (fromList ["about.org"]) $ do
+    match (fromList ["about.org", "projects.org"]) $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/basic.html" defaultContext
             >>= loadAndApplyTemplate "templates/default.html" defaultContext
             >>= relativizeUrls
 
-    tags <- buildTags "posts/*" (fromCapture "tags/*.html")
-
-    --tagsRules tags $ \tag identifiers -> do
     tagsRulesVersioned tags $ \tag identifiers -> do
         let title = "Posts tagged \"" ++ tag ++ "\""
         route idRoute
         compile $ do
-            --posts <- recentFirst =<< loadAll pat
             posts <- loadAll $ fromList $ map (setVersion $ Just "meta") identifiers
             let ctx = constField "title" title
                       `mappend` listField "posts" postCtx (return posts)
@@ -61,10 +57,6 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/default.html" ctx
                 >>= relativizeUrls
 
-    ---- get post meta for use in related context
-    --posts <- buildPostsMeta "posts/*"
-
-    --match "posts/*" $ do
     match "posts/*" $ version "meta" $ do
         route   $ setExtension "html"
         compile getResourceBody
@@ -72,49 +64,17 @@ main = hakyll $ do
     match "posts/*" $ version "html" $ do
         route $ setExtension "html"
         compile $ do
-          -- hasNoVersion: created two versions of posts to avoid circular
-          -- dependencies with relatedPosts. found the my tags pages generated
-          -- by tagsRules did not match any posts. Tried to apply version; this
-          -- did not work. Found eventually that tagsRules has problems with
-          -- versioned items. easiest workaround: version main displayed posts
-          -- as "html", match on that version in index and post functions, and
-          -- to match on the seperate set of post items for related posts, use
-          -- "hasNoVersion" so that the html set is excluded, avoiding
-          -- redundancy and (crucially) circular dependency.
-          -- ps <- (loadAll ("posts/*" .&&. hasNoVersion) :: Compiler [Item String])
+          ident <- getUnderlying
+          toc <- getMetadataField ident "toc"
+          let compiler = case toc of
+                Just _ -> pandocCompilerWith defaultHakyllReaderOptions withToc
+                Nothing -> pandocCompiler
           ps <- loadAll ("posts/*" .&&. hasVersion "meta") :: Compiler [Item String]
-          --let ctx = tagsCtx tags <> postCtx <> relatedCtx posts <> listField "posts" postCtx (return ps)
-          --let ctx = tagsCtx tags <> postCtx <> listField "posts" postCtx (return ps)
           let ctx = tagsCtx tags <> postCtx <> listField "posts" postCtx (return ps) <> relatedPostsCtx ps
-          pandocCompiler
+          compiler
             >>= loadAndApplyTemplate "templates/post.html" ctx
             >>= loadAndApplyTemplate "templates/default.html" ctx
             >>= relativizeUrls
-    -- running loadall inside of main match posts section caused circular
-    -- dependency error. Is it the case that loadall is actually, by some
-    -- magic, loading the objects that are created here? the monad would handle
-    -- order of operations. reference here: https://jaspervdj.be/hakyll/tutorials/04-compilers.html
-
-    -- changing the loaded posts to meta appears to fix the circular
-    -- dependencies issue.
-
-    create ["archive.html"] $ do
-        route idRoute
-        compile $ do
-            posts <- recentFirst =<< loadAll ("posts/*" .&&. hasVersion "html")
-            let archiveCtx =
-                    listField "posts" postCtx (return posts) `mappend`
-                    constField "title" "Archives"            `mappend`
-                    defaultContext
-
-            makeItem ""
-                >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
-                >>= loadAndApplyTemplate "templates/default.html" archiveCtx
-                >>= relativizeUrls
-
-    match "index.html" $ do
-        route idRoute
-        compile $ makeItem $ Redirect "blog.html"
 
     match "blog.html" $ do
         route idRoute
@@ -122,7 +82,7 @@ main = hakyll $ do
             posts <- recentFirst =<< loadAll ("posts/*" .&&. hasVersion "html")
             let blogCtx =
                     listField "latest_posts" (postCtxWithTags tags) (return $ take 3 posts) `mappend`
-                    listField "later_posts" postCtx (return $ drop 3 posts) `mappend`
+                    listField "later_posts" (postCtxWithTags tags) (return $ drop 3 posts) `mappend`
                     listField "alltags" tagCtx (return $ tagList tags) `mappend`
                     constField "title" "Blog"                `mappend`
                     defaultContext
@@ -131,8 +91,11 @@ main = hakyll $ do
                 >>= applyAsTemplate blogCtx
                 >>= loadAndApplyTemplate "templates/default.html" blogCtx
                 >>= relativizeUrls
-
-    match "templates/*" $ compile templateCompiler
+  where
+    withToc = defaultHakyllWriterOptions
+        { writerTableOfContents = True
+        , writerTemplate        = Just "<p><h1>Contents</h1></p><div class=\"toc\">$toc$</div>\n$body$"
+        }
 
 --------------------------------------------------------------------------------
 -- Post Context
@@ -182,15 +145,12 @@ renderLink tag (Just filePath) =
 --------------------------------------------------------------------------------
 -- Related Posts
 
-getMetaTags :: Metadata -> [Text]
-getMetaTags = fromMaybe [] . (Y.parseMaybe Y.parseJSON <=< HM.lookup "tags")
-
 relatedPostsCtx :: [Item String] -> Context String
 relatedPostsCtx xs = listFieldWith "related" postCtx selectPosts
   where
     matchPath x y = not $ eqOn (toFilePath . itemIdentifier) x y
     rateItem :: [String] -> Item String-> Compiler Int
-    rateItem ts i = (length . filter (`elem` ts)) <$> (splitOn "," <$> getTags i)
+    rateItem ts i = length . filter (`elem` ts) <$> (splitOn "," <$> getTags i)
     getTags :: Item String -> Compiler String
     getTags x = fromMaybe "" <$> getMetadataField (itemIdentifier x) "tags"
     selectPosts :: Item String -> Compiler [Item String]
@@ -206,7 +166,7 @@ eqOn f x y = f x == f y
 
 -- sorton a monadic function
 sortOnM :: (Monad m, Ord b) => (a -> m b) -> [a] -> m [a]
-sortOnM f xs = (map fst . sortBy (comparing snd) . zip xs) <$> mapM f xs
+sortOnM f xs = map fst . sortBy (comparing snd) . zip xs <$> mapM f xs
 
 --------------------------------------------------------------------------------
 -- TagsRulesVersioned
