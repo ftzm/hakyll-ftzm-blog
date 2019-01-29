@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Automatically recompile sass on change
 sass --watch css/mystyles.scss:css/mystyles.css &
 

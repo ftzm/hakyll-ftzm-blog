@@ -1,5 +1,5 @@
 ---
-title: Workspaces Only Need Names When You Can See Them
+title: Flexible workspace names in i3
 published: 2015-12-05
 teaser: A little trick for more convenient workspace naming in i3 (and potentially other WMs).
 tags: bash, linux, ricing, i3

@@ -1,0 +1,33 @@
+---
+title: Articles
+---
+
+<main class="articles">
+  <h1 class="page-title" >Articles</h1>
+    <hr class="underline">
+  <div class="post-list">
+    <p>
+      These articles range from short notes to long tutorials, on various technological subjects. It is also possible to browse by tags.
+    </p>
+
+    $for(posts)$
+        <div class="post-list-item">
+	    <div class="post-list-date">
+	      $date$
+	    </div>
+	    <a class="post-list-title" href="$url$">$title$</a>
+        </div>
+    $endfor$
+  </div>
+  <div class="tags">
+  <h1 class="page-title" >Tags</h1>
+    <hr class="underline">
+    <div class="tags-list">
+      $for(alltags)$
+        <a href="/tags/$name$.html">$name$</a><br>
+      $endfor$
+    </div>
+  </div>
+
+
+</main>

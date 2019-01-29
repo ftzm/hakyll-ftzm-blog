@@ -3,16 +3,32 @@
 //@import "../bulma-master/sass/utilities/initial-variables";
 //@import "../bulma-master/bulma";
 
-$primary: #00d1b2;
+$bg: white;
+$gray: #33342F;
+$primary: #2aa198;
+$secondary: #bdae93;
 $warning: #FFDD57;
 $secondary-title: #999999;
 $main-title: black;
 $archive-accent: #eee;
-$off-black: #4a4a4a;
+$off-black: #3c3836;
 
 
 // ----------------------------------------------------------------------------
 // Standard elements
+
+
+@font-face {
+    font-family: 'TiemposHeadline';
+    font-weight:600;
+    src: url(/fonts/TiemposHeadlineWeb-Medium.woff) format("woff")
+}
+
+@font-face {
+    font-family: 'Tiempos';
+    font-weight:500;
+    src: url(/fonts/TiemposTextWeb-Regular.woff) format("woff")
+}
 
 html, body, p, ol, ul, li, dl, dt, dd, blockquote, figure, fieldset, legend, textarea, pre, iframe, hr, h1, h2, h3, h4, h5, h6 {
     padding: 0;
@@ -26,21 +42,174 @@ html {
     text-rendering: optimizeLegibility;
     box-sizing: border-box;
     margin: 0;
-    font-family: Source Sans Pro;
+    font-family: "Tiempos";
 }
 
 body {
-    padding: none;
     color: $off-black;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
+    background-color: $bg;
     margin: 0;
+    width: 100%;
+    //for footer
+    min-height: 100%;
+}
+
+.skinny-home {
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 75rem;
+}
+
+p, ul, ol {
+    font-variant-numeric: oldstyle-nums;
+    font-variant-ligatures: common-ligatures;
+}
+
+p {
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    line-height: 1.8rem;
+    font-size: 1rem;
+    word-break: break-word;
+}
+
+// ------------------------------------------------------------
+// main
+
+main p:first-child:first-letter {
+    color: $primary;
+    float: left;
+    font-size: 3.6rem;
+    line-height: 0.5;
+    padding-top: 0.9rem;
+    padding-right: 0.3rem;
+    padding-left: 0.1rem;
+}
+
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.skinny {
+    box-sizing: border-box;
+    max-width: 50rem;
+    min-width: 50rem;
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+footer {
+    box-sizing: border-box;
+    background-color: #f5f5f5;
+    color: gray;
+    width: 100%;
+    height: 5rem;
+    bottom: 0;
+    margin-top: 3rem;
+    padding: 3rem;
+    padding-bottom: 4rem;
+    text-align: center;
+}
+
+summary {
+    -webkit-margin-before: 2.5em;
+    -webkit-margin-after: 2.5rem;
 }
 
 a {
     text-decoration: none;
 }
+
+header h1 {
+    color: $main-title;
+    text-align: center;
+    display: block;
+    font-size: 3rem;
+    -webkit-margin-before: 0.67em;
+    -webkit-margin-after: 0.67em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+    line-height: 1.2;
+    margin-top: 0;
+    font-family: TiemposHeadline;
+    width: 100%;
+}
+
+.headshot {
+    width: 100%;
+    height: auto;
+}
+
+// ------------------------------------------------------------
+// top
+
+.brand {
+    margin-top: 3rem;
+    margin-bottom: 6rem;
+    float: left;
+    width: 100%;
+    padding-right: 3%;
+}
+
+.brand-left {
+    font-family: TiemposHeadline;
+    font-size: 1.8rem;
+    text-align: right;
+    float: left;
+    background-color: #fdf5e3;
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
+    padding-bottom: 0.2rem;
+}
+
+.brand-left a {
+    color: #000;
+}
+
+.brand-left a:hover {
+    color: #000;
+}
+
+.brand-right {
+    margin-top: 0.8rem;
+    font-family: Roboto;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: left;
+    text-transform: uppercase;
+    float: right;
+    //color: #505050;
+}
+
+.brand-right a {
+    color: #505050;
+    margin-left: 1.5rem;
+}
+
+.brand-right a:hover {
+    color: black;
+}
+
+// ------------------------------------------------------------
+// article
+
+.underline {
+    width: 30%;
+    height: 0.2rem;
+    background-color: $primary;
+    border-color: $primary;
+    border-style: none;
+    margin-bottom: 2.5rem;
+}
+
 
 ul {
     list-style-position: inside;
@@ -52,22 +221,46 @@ li {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: "mont";
-    font-weight: 400;
-    margin-top: 0;
-    margin-bottom: 1.5rem;
+    font-weight: 500;
+    font-family: Roboto;
+    //font-variant-numeric: oldstyle-nums;
 }
 
 h1 {
-    font-size: 2rem;
+    float: left;
+    width: 100%;
+    display: block;
+    font-size: 1.5rem;
+    -webkit-margin-before: 0.83em;
+    -webkit-margin-after: 0.83em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+
+.post h1 {
+    counter-reset: subsection
+}
+
+.post h1:before {
+    counter-increment: section; /* Increment the value of section counter by 1 */
+    content: counter(section)"."; // counter(section);
+    padding-right: 6px;
+    color: $primary;
+}
+
+.post h2:before {
+    counter-increment: subsection; /* Increment the value of section counter by 1 */
+    content: counter(section)"."counter(subsection); // counter(section);
+    margin-right: 6px;
+    color: $primary;
 }
 
 h2 {
-    font-size: 1.75rem;
+    font-size: 1.25rem;
 }
 
 h3 {
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 
 h2>u {
@@ -75,74 +268,42 @@ h2>u {
     border-bottom: 3px solid $primary;
 }
 
-// ----------------------------------------------------------------------------
-// Nav
-
-nav {
-    display: block;
-    position: fixed;
-    top: 25%;
-    left: calc(50% - 730px);
-    width: 250px;
+main.post {
+    padding-bottom: 1.3rem;
 }
-
-nav p {
-    display: block;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    font-size: 1rem;
-}
-
-nav p a {
-    box-shadow: none;
-    text-decoration: none;
-    color: $primary;
-    font-weight: bold;
-}
-
-nav ul {
-    list-style: none;
-    margin: 0;
-}
-
-nav ul a {
-    font-family: "mont";
-    color: $off-black;
-}
-
-#logo {
-    width: 6rem;
-    margin-bottom: 1.5rem;
-}
-
-nav span {
-    font-family: "mont";
-    font-size: 1.5rem;
-    color: #0a0a0a;
-}
-
 
 // ----------------------------------------------------------------------------
 // Code
 
-div.sourceCode, code pre {
-    color: #4a4a4a;
-    font-family: monospace;
-    background-color: whitesmoke;
+div.sourceCode {
+    width: 100%;
+    display: inline-block;
 }
 
-pre {
-    font-size: 0.875rem;
-    padding: 0.75rem;
+code {
+    font-family: roboto;
+    font-size: 0.85rem;
 }
 
 p > code {
-    background-color: whitesmoke;
-    font-size: 0.875rem;
-    padding-left: 0.5rem;
+    background-color: #f5f5f5;
+    color: #444;
+    padding: 0.2rem 0.3rem;
+    border-radius: 0.3rem;
+    font-size: 0.8rem;
+}
+
+pre {
+    font-size: 0.75rem;
+    padding-left: 1rem;
     padding-right: 0.5rem;
-    padding-top: 0.15rem;
-    padding-bottom: 0.15rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.8rem;
+    font-family: 'Fira Mono' !important;
+    line-height: 1.6;
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+    //border-left: 2px solid #e3dfd4;
 }
 
 // ----------------------------------------------------------------------------
@@ -151,27 +312,62 @@ p > code {
 .toc {
     font-size: 1rem;
     margin-bottom: 2rem;
+    counter-reset: toc;
+    background-color: #f5f5f5;
+    font-family: Roboto;
+    padding: 1.5rem;
+    line-height: 1.6;
+    width: 100%;
+}
+
+.toc ul {
+    list-style: none;
+    width: 100%;
 }
 
 .toc > ul {
-    border-left: 4px solid $primary;
+    //border-left: 1px solid $secondary;
+    margin-top: 0;
     padding-top: 0rem;
     padding-bottom: 0rem;
+    //padding-left: 0.4rem;
     padding-left: 1.5rem;
     color: $off-black;
-    font-weight: bold;
-}
-
-.toc li {
     list-style: none;
-    line-height: 1.5;
 }
 
-.toc li > ul {
+.toc li:before {
+    line-height: 1.5;
+    counter-increment: toc;
+    content: counter(toc) ". "; // counter(section);
+}
+
+.toc > ul > li > ul {
     padding-left: 0.9rem;
     margin-left: 0.1rem;
-    color: gray;
-    font-weight: 300;
+    color: grey;
+    list-style: none;
+    counter-reset: subtoc;
+}
+
+.toc > ul > li > ul > li :before {
+    line-height: 1.5;
+    counter-increment: subtoc;
+    content: counter(toc) "." counter(subtoc) ". "; // counter(section);
+}
+
+.toc > ul > li > ul > li > ul {
+    padding-left: 0.9rem;
+    margin-left: 0.1rem;
+    color: grey;
+    list-style: none;
+    counter-reset: subsubtoc;
+}
+
+.toc > ul > li > ul > li > ul > li:before {
+    line-height: 1.5;
+    counter-increment: subsubtoc;
+    content: counter(toc) "." counter(subtoc) "." counter(subsubtoc) ". "; // counter(section);
 }
 
 .toc a {
@@ -184,282 +380,434 @@ p > code {
     font-weight: inherit;
 }
 
+.toc h1 {
+    margin-top: 0rem;
+    margin-bottom: 0.4rem;
+}
+
+.toc h1:before {
+    counter-increment: unset; /* Increment the value of section counter by 1 */
+    content: ""; // counter(section);
+}
 
 // ----------------------------------------------------------------------------
-//
-.bare-list {
-    list-style: none;
-    margin: 0;
+// home
+
+.home-wrapper {
+    float: left;
+    padding-top: 5rem;
 }
 
-main {
-    padding-top: 4.5rem;
-    width: 800px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.blog-left {
-    width: 450px;
+.home-text {
+    width: 65%;
     float: left;
 }
 
-.blog-right {
-    width: 300px;
+.headshot-section {
+    padding-left: 2rem;
+    width: 35%;
     float: right;
 }
 
-.blog-later {
-    float: left;
-    margin-top: 2rem;
+.home-content {
+    font-family: Roboto;
+    font-weight: 300;
+    font-size: 0.7rem;
+    color: #666;
 }
 
-.related-box {
-    width: 50%;
-    float: left;
-}
-
-svg.top-logo {
-    fill: $primary;
-}
-
-.date {
-    font-weight: bold;
-    margin-right: 1rem;
-}
-
-
-.green-border {
-    margin-top: 2rem;
-    border-top: 3px solid $primary;
+.home-content h1 {
     width: 100%;
     float: left;
-}
-
-.archive-title {
-    border-top: 3px solid $primary;
-    padding: 8px 0px;
-    break-inside: avoid;
-    font-family: Mont;
-    margin-bottom: 1.5rem;
-}
-
-.tag-row {
+    color: $main-title;
     display: block;
-    padding-bottom: 2rem;
-    padding-top: 0;
-    break-inside: avoid;
-    text-transform: uppercase;
+    font-size: 3rem;
+    -webkit-margin-before: 0.67rem;
+    -webkit-margin-after: 0.77rem;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+    line-height: 1.2;
+    margin-top: 0;
+    font-family: TiemposHeadline;
+    width: 100%;
 }
 
-.archive-row {
-    padding-top: 0;
-    break-inside: avoid;
-    margin-bottom: 3rem;
-}
-
-.post-link {
+.home-content p:first-of-type {
+    width: 100%;
+    float: left;
+    line-height: 1.6rem;
+    font-family: Roboto;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    margin-top: 0;
     color: $off-black;
-    font-weight: 500;
-    font-size: 1.5rem;
-    text-align: left;
-    text-justify: none;
-    font-family: "mont";
+}
+
+.home-content p:first-of-type strong {
+    font-weight: 400;
+}
+
+.home-content p {
+    display: block;
+    width: 50%;
+    float: left;
+    padding-right: 1rem;
+    line-height: 1.6rem;
+    margin-bottom: 0;
+}
+
+// ------------------------------------------------------------
+// main
+
+main {
+    counter-reset: section;
+}
+
+.body{
+    flex: 1;
 }
 
 .tag {
-    align-items: center;
-    color: #4a4a4a;
-    background-color: whitesmoke;
-    border-radius: 3px;
-    display: inline-flex;
-    font-size: 0.75rem;
-    height: 1.5rem;
-    justify-content: center;
-    line-height: 1rem;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    white-space: nowrap;
-    font-weight: bold;
+    color: $primary;
+}
+
+.tag:after {
+    content: ",";
+    color: $off-black;
+}
+.tag:last-of-type:after {
+    content: ".";
 }
 
 .tag-link {
     color: $secondary-title;
 }
 
-.archive-date {
-    color: $secondary-title;
-    padding-top: 0px;
-    padding-bottom: 2px;
-    margin-bottom: 0px;
-    display: block;
-    font-size: 0.875rem;
-}
-
-.pad-below {
-    padding-bottom: 1rem;
-}
-
-.related {
-    margin-top: 4rem;
-}
-
-hr {
-    display: block;
-    border: none;
-    margin: 1.5rem 0;
-}
-
-hr.accent {
-    background-color: $primary;
-    height: 4px;
+.postmeta {
     margin-top: 2rem;
-    margin-bottom: 2.5rem;
-    width: 8rem;
+    margin-bottom: 2rem;
+    height: 100%;
+    overflow: hidden;
+    font-size: 0.9rem;
+    font-weight: bold;
+    //text-transform: uppercase;
+    //font-family: roboto;
+    box-sizing:border-box;
 }
 
-.teaser {
-    color: $secondary-title;
-    padding-top: 0.2rem;
-    padding-bottom: 0px;
-    margin-bottom: 1rem;
-}
-
-p {
-    font-weight: 400;
-    font-size: 1.2rem;
-    text-justify: auto !important;
-    margin-bottom: 1.5rem;
-    margin-top: 0px;
-}
-
-p>a {
-  color: inherit;
-  text-decoration: none;
-  box-shadow: inset 0 -0.2rem 0 0 $warning;
-}
-
-.display-title {
-    font-family: "mont";
-    font-size: 2.5rem;
-    margin: 0px 0px;
-    margin-bottom: 0.5rem;
-    text-align: left;
-    text-justify: none;
-}
-
-.tag-name {
+.postmeta-left {
     width: 50%;
+    border-right: 3px solid $secondary;
     float: left;
-}
-
-.tag-count {
-    width: 50%;
-    float: left;
+    padding-right: 1.5rem;
     text-align: right;
 }
 
-.tag-columns {
-    columns: 2;
-    column-gap: 4rem;
+.postmeta-right {
+    width: 41%;
+    float: left;
+    padding-left: 1.5rem;
+    text-align: left;
 }
 
-@font-face {
-  font-family: 'mont';
-  src:  url('../fonts/Mont-Bold.woff2') format('woff2');
+.page-title {
+    font-family: 'TiemposHeadline';
+    text-align: center;
+    font-size: 2.5rem;
+    margin-top: 0;
 }
 
-@media screen and (max-width: 1580px) {
-  nav {
-      left: 60px
-  }
-  main {
-      margin-left: 390px;
-  }
+.articles {
+    padding-left: 15%;
+    padding-right: 15%;
 }
-@media screen and (max-width: 1200px) {
-  main {
-      margin-left: 5vw;
-      margin-right: 5vw;
-      width: 90%;
-      padding-top: 3rem;
+
+a>h1 {
+  color: $off-black;
+  text-decoration: none;
+}
+
+p>a {
+    color: $primary;
+    text-decoration: none;
+}
+p>a:hover {
+  color: $primary;
+  text-decoration: none;
+}
+
+// ------------------------------------------------------------
+// post-list
+
+.post-list {
+    margin-bottom: 2em;
+    float: left;
+}
+
+.post-list p {
+    margin-top: 0;
+    margin-bottom: 2.5em;
+}
+
+.post-list-title {
+    color: $off-black;
+    font-family: Roboto;
+}
+
+.post-list-item {
+    width: 100%;
+    margin-bottom: 1rem;
+    float: left;
+}
+
+.post-list-date {
+    float: left;
+    width: 30%;
+    text-align: left;
+    padding-right: 1rem;
+    padding-top: 0.2rem;
+    text-transform: uppercase;
+    font-family: roboto;
+    color: #aaaaaa;
+    font-size: 0.7rem;
+    letter-spacing: 0.05rem;
+}
+
+.tags {
+    width: 100%;
+    float: left;
+}
+
+// ------------------------------------------------------------
+// tags
+
+.tags-list {
+    padding: 1.5rem;
+    padding-top: 0;
+    margin-top: 3rem;
+    column-count: 4;
+    column-rule: 1px solid #e5e5e5;
+    column-gap: 6rem;
+    line-height: 1.2rem;
+}
+
+.tags-list a {
+    font-family: roboto;
+    color: gray;
+}
+
+// ------------------------------------------------------------
+// related
+
+.related {
+    margin-top: 3rem;
+    font-size: 1rem;
+}
+
+.related-header {
+    color: $main-title;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2rem;
+}
+
+.related-title {
+    color: $off-black;
+    font-family: TiemposHeadline;
+    font-weight: 400;
+    font-size: 1.1rem;
+    width: 100%;
+    display: block;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.related p {
+    margin: 0;
+    margin-bottom: 1rem;
+}
+
+.related-boxes {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.related-box {
+    flex-grow: 1;
+    flex-basis: 0;
+    display: flex;
+    align-items: center;
+}
+
+.related-box:first-child {
+
+    //border-right: 2px solid $secondary;
+    padding-right: 5%;
+}
+
+.related-box:last-child {
+    padding-left: 5%;
+    border-left: 2px solid #f5f5f5;
+}
+
+.related-header-line {
+    flex: 1;
+}
+
+.related-header-line hr {
+    height: 0.1rem;
+    background-color: grey;
+    border-color: grey;
+    border-style: none;
+}
+
+.related-header-title {
+    padding: 0 1rem;
+    font-size: 1rem;
+    color: $off-black;
+}
+
+// ------------------------------------------------------------
+
+.bigHide {
+    display: none;
+}
+
+@media screen and (max-width: 50rem) {
+
+.bigHide {
+    display: block;
+}
+
+    .smallHide {
+	display: none;
+    }
+
+  .brand {
+      margin-top: 3vw;
+      margin-bottom: 7vw;
   }
 
-// ----------------------------------------------------------------------------
-// Nav
+  .skinny-home {
+      padding: 0 3vw;
+      padding-bottom: 5rem;
+      float: left;
+  }
 
-  nav {
-      background-color: whitesmoke;
-      left: 0;
-      display: block;
-      position: relative;
-      margin: 0px;
-      padding-top: 15px;
-      padding-bottom: 15px;
+  .skinny {
+      padding-left: 3vw;
+      padding-right: 3vw;
+      max-width: 100%;
+      min-width: 0;
+  }
+
+  footer {
+      padding-left: 3vw;
+      padding-right: 3vw;
+  }
+
+  .intro-left {
+      padding-left: 2vw;
+      padding-right: 5vw;
+  }
+
+  .intro-right {
       padding-left: 5vw;
-      width: 100%;
-  }
-  nav::after {
-      content: " ";
-      display: block;
-      height: 0;
-      clear: both;
-  }
-  #logo {
-      width: 2.9rem;
-      float: left;
-      margin-bottom: 0;
-  }
-  nav span {
-      float: left;
-      display: none;
-  }
-  nav ul {
-      margin-top: 1px;
-      float: left;
-  }
-  nav li {
-      font-size: 1.5rem;
-      display: inline-block;
-      /* You can also add some margins here to make it look prettier */
-      zoom:1;
-      *display:inline;
-      /* this fix is needed for IE7- */
-      margin-left: 27px;
+      padding-right: 3vw;
   }
 
-  nav li + li {
-      margin-left: 20px;
+  .articles {
+      padding-left: 3vw;
+      padding-right: 3vw;
   }
-  nav p {
+
+  .tags-list {
+      column-count: 3;
+  }
+
+  .brand-right {
       display: none;
+  }
+
+// ------------------------------------------------------------
+// post list
+
+  .post-list-date {
+      width: 100%;
+  }
+
+  .post-list-title {
+      width: 100%;
+      font-size: 1rem;
+  }
+
+// ------------------------------------------------------------
+// related
+
+  .related {
+      margin-top: 2rem;
+  }
+
+  .related-boxes {
+      flex-direction: column;
+  }
+
+  .related-box:first-child {
+      all: unset;
+      margin-bottom: 1.5rem;
+  }
+
+  .related-box:last-child {
+      all: unset;
+  }
+
+  footer {
+      margin-top: 2rem;
+  }
+
+// ------------------------------------------------------------
+// home
+
+  .home-wrapper {
+      padding-top: 0rem;
+  }
+
+  .home-text {
+      width: 100%;
+      padding: 0 6vw;
+  }
+
+  .home-content p {
+      width: 100%;
+      font-size: 1.3rem;
+      line-height: 1.6;
+  }
+
+  .home-content p:first-of-type {
+      text-align: center;
+      font-size: 1.5rem;
+  }
+
+  .home-content h1 {
+      font-size: 3.7rem;
+      text-align: center;
+  }
+
+  .headshot-section {
+      padding-left: 25vw;
+      padding-right: 25vw;
+      padding-bottom: 5vw;
+      width: 100%;
+      float: left;
   }
 
 // ----------------------------------------------------------------------------
-
-  .blog-left {
-      width: 100%;
-  }
-  .blog-right {
-      width: 100%;
-  }
-  .display-title {
-      font-family: "mont";
-      font-size: 2.125rem;
-      margin: 0px 0px;
-      margin-bottom: 0.8rem;
-      text-align: left;
-      text-justify: none;
-  }
-  .related-box {
-      width: 100%;
-      float: left;
-  }
-  .tag-columns {
-      columns: 3;
-      column-gap: 2.5rem;
-  }
+// headers
 
   h1, h2, h3, h4, h5, h6 {
       margin-bottom: 1rem;
@@ -477,9 +825,52 @@ p>a {
       font-size: 1.5rem;
   }
 
+  html {
+      font-size: 75%;
+  }
+
 }
-@media screen and (max-width: 768px) {
-    html {
-	font-size: 75%;
+
+// ------------------------------------------------------------
+// menu
+
+#toggle {
+    z-index: 100;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 3vw;
+    margin-right: 4vw;
+    font-size: 1.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.popup {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    box-sizing: border-box;
+    height: 100%;
+    background-color: white;
+    text-align: center;
+    padding-top: 10vh;
+    a {
+	display: block;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	margin-top: 3rem;
+	font-size: 3rem;
     }
+}
+
+.noScroll {
+    overflow: hidden;
+    position: fixed;
 }

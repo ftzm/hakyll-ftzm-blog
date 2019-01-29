@@ -1,28 +1,16 @@
----------------------------------------------------------------------------------
-
 {-# LANGUAGE OverloadedStrings #-}
+{-# OPTIONS -Wall #-}
 
-import           Data.Monoid                     (mappend, (<>))
-import           Data.List                       (intersperse, find, sortOn, reverse, delete, sortBy)
-import           Data.List.Split                 (splitOn)
+import           Data.Monoid                     ((<>))
+import           Data.List                       (intersperse, reverse, sortBy)
 import           Data.Ord                        (comparing)
-import           Data.Maybe                      (fromMaybe, fromJust)
-import           Control.Applicative             ((<|>))
-import           Control.Monad                   (foldM, (<=<), forM_)
-import           Control.Arrow                   (second)
-import           Data.Text                       (Text)
-import qualified Data.Map                        as M
-import qualified Data.Yaml                       as Y
-import qualified Data.HashMap.Strict             as HM
-import qualified Data.Vector                     as V
+import           Control.Monad                   (forM_)
 
 import           Hakyll
 import           Text.Blaze.Html                 (toHtml, toValue, (!))
 import qualified Text.Blaze.Html5                as H
 import qualified Text.Blaze.Html5.Attributes     as A
 import           Text.Pandoc
-
---------------------------------------------------------------------------------
 
 main :: IO ()
 main = hakyll $ do
@@ -31,18 +19,19 @@ main = hakyll $ do
     match "images/*" $ route idRoute >> compile copyFileCompiler
     match "css/*" $ route idRoute >> compile compressCssCompiler
     match "templates/*" $ compile templateCompiler
-    tags <- buildTags "posts/*" (fromCapture "tags/*.html")
 
     match "index.html" $ do
         route idRoute
-        compile $ makeItem $ Redirect "blog.html"
+        compile $ makeItem $ Redirect "home.html"
 
-    match (fromList ["about.org", "projects.org"]) $ do
+    match (fromList ["about.org", "projects.org", "resume.org", "404.org"]) $ do
         route   $ setExtension "html"
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/basic.html" defaultContext
             >>= loadAndApplyTemplate "templates/default.html" defaultContext
             >>= relativizeUrls
+
+    tags <- buildTags "posts/*" (fromCapture "tags/*.html")
 
     tagsRulesVersioned tags $ \tag identifiers -> do
         let title = "Posts tagged \"" ++ tag ++ "\""
@@ -50,8 +39,8 @@ main = hakyll $ do
         compile $ do
             posts <- loadAll $ fromList $ map (setVersion $ Just "meta") identifiers
             let ctx = constField "title" title
-                      `mappend` listField "posts" postCtx (return posts)
-                      `mappend` defaultContext
+                   <> listField "posts" postCtx (return posts)
+                   <> defaultContext
             makeItem ""
                 >>= loadAndApplyTemplate "templates/tag.html" ctx
                 >>= loadAndApplyTemplate "templates/default.html" ctx
@@ -70,31 +59,37 @@ main = hakyll $ do
                 Just _ -> pandocCompilerWith defaultHakyllReaderOptions withToc
                 Nothing -> pandocCompiler
           ps <- loadAll ("posts/*" .&&. hasVersion "meta") :: Compiler [Item String]
-          let ctx = tagsCtx tags <> postCtx <> listField "posts" postCtx (return ps) <> relatedPostsCtx ps
+          let ctx = tagsCtx tags <> postCtx <> listField "posts" postCtx (return ps) <> relatedPostsCtx ps 2
           compiler
             >>= loadAndApplyTemplate "templates/post.html" ctx
             >>= loadAndApplyTemplate "templates/default.html" ctx
             >>= relativizeUrls
 
-    match "blog.html" $ do
+    match "articles.html" $ do
         route idRoute
         compile $ do
             posts <- recentFirst =<< loadAll ("posts/*" .&&. hasVersion "html")
             let blogCtx =
-                    listField "latest_posts" (postCtxWithTags tags) (return $ take 3 posts) `mappend`
-                    listField "later_posts" (postCtxWithTags tags) (return $ drop 3 posts) `mappend`
-                    listField "alltags" tagCtx (return $ tagList tags) `mappend`
-                    constField "title" "Blog"                `mappend`
-                    defaultContext
+                  listField "posts" (postCtxWithTags tags) (return posts)
+                    <> listField "alltags" tagCtx (return $ tagList tags)
+                    <> constField "title" "Blog"
+                    <> defaultContext
 
             getResourceBody
                 >>= applyAsTemplate blogCtx
                 >>= loadAndApplyTemplate "templates/default.html" blogCtx
                 >>= relativizeUrls
+
+    match "home.org" $ do
+        route   $ setExtension "html"
+        compile $ pandocCompiler
+            >>= loadAndApplyTemplate "templates/home.html" defaultContext
+            >>= relativizeUrls
+
   where
     withToc = defaultHakyllWriterOptions
         { writerTableOfContents = True
-        , writerTemplate        = Just "<p><h1>Contents</h1></p><div class=\"toc\">$toc$</div>\n$body$"
+        , writerTemplate        = Just "<div class=\"toc\"><h1>Contents</h1>$toc$</div>\n$body$"
         }
 
 --------------------------------------------------------------------------------
@@ -104,7 +99,6 @@ postCtx :: Context String
 postCtx
   =  dateField "date" "%B %e, %Y"
   <> defaultContext
-
 
 --------------------------------------------------------------------------------
 -- Tags
@@ -123,13 +117,12 @@ tagCtx = tagNameField <> tagUrlField <> tagCountField
       tagCountField = field "count" $ (\(_,_,count) -> return count) . itemBody
 
 tagList :: Tags -> [Item (String, String, String)]
-tagList tags = map (Item "tags" . preprocess) (tagsMap tags)
+tagList tags = map (Item "tags" . tagTup) (tagsMap tags)
   where
-    preprocess t = (tagName, tagUrl, tagCount)
+    tagTup (name, (urls)) = (name, tagUrl, tagCount)
       where
-        tagName = fst t
-        tagUrl = show $ tagsMakeId tags $ fst t
-        tagCount = show $ length $ snd t
+        tagUrl = show $ tagsMakeId tags name
+        tagCount = show $ length urls
 
 tagsFieldCustom :: String     -- ^ Destination key
                 -> Tags       -- ^ Tags
@@ -138,6 +131,7 @@ tagsFieldCustom =
   tagsFieldWith getTags renderLink (mconcat . intersperse " ")
 
 
+renderLink :: H.ToMarkup a => a -> Maybe FilePath -> Maybe H.Html
 renderLink _   Nothing         = Nothing
 renderLink tag (Just filePath) =
   Just $ H.a ! A.class_ "tag" ! A.href (toValue $ toUrl filePath) $ toHtml tag
@@ -145,26 +139,25 @@ renderLink tag (Just filePath) =
 --------------------------------------------------------------------------------
 -- Related Posts
 
-relatedPostsCtx :: [Item String] -> Context String
-relatedPostsCtx xs = listFieldWith "related" postCtx selectPosts
+relatedPostsCtx :: [Item String] -> Int -> Context String
+relatedPostsCtx posts n = listFieldWith "related" postCtx selectPosts
   where
-    matchPath x y = not $ eqOn (toFilePath . itemIdentifier) x y
-    rateItem :: [String] -> Item String-> Compiler Int
-    rateItem ts i = length . filter (`elem` ts) <$> (splitOn "," <$> getTags i)
-    getTags :: Item String -> Compiler String
-    getTags x = fromMaybe "" <$> getMetadataField (itemIdentifier x) "tags"
-    selectPosts :: Item String -> Compiler [Item String]
+    rateItem ts i = length . filter (`elem` ts) <$> (getTags $ itemIdentifier i)
     selectPosts s = do
-      postTags <- splitOn "," <$> getTags s
-      let trimmedItems = filter (matchPath s) xs --exclude current post
-      take 2 . reverse <$> sortOnM (rateItem postTags) trimmedItems
+      postTags <- getTags $ itemIdentifier s
+      let trimmedItems = filter (not . matchPath s) posts --exclude current post
+      take n . reverse <$> sortOnM (rateItem postTags) trimmedItems
 
--- compare two arguments for equality based on their transformations to
+-- |Compare two items for equality based on their filepaths
+matchPath :: Item String -> Item String -> Bool
+matchPath x y = eqOn (toFilePath . itemIdentifier) x y
+
+-- |Compare two arguments for equality based on their transformations to
 -- comparable types
 eqOn :: Eq b => (a -> b) -> a -> a -> Bool
 eqOn f x y = f x == f y
 
--- sorton a monadic function
+-- |Sort on a monadic function
 sortOnM :: (Monad m, Ord b) => (a -> m b) -> [a] -> m [a]
 sortOnM f xs = map fst . sortBy (comparing snd) . zip xs <$> mapM f xs
 

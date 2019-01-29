@@ -1,0 +1,10 @@
+---
+title: Projects
+---
+
+* TypeSpeed
+TypeSpeed is a simple webapp written as an exercise in learning Elm. A randomly selected sentence slides across the screen as you type, with speed and accuracy statistics displayed afterwards.
+* Hnefatafl
+Hnefatafl is the name of an old norse boardgame, like a cross between chess and go. I wrote Haskell engine for the game which includes a command line interface and a passable AI.
+* The Kubernetes cluster this is running on.
+Some would say that Kubernetes is overkill as a platform for a static blog and a few tiny webapps, and they'd be right. Still, it's great to have a place to experiment with the latest and greatest tools and techniques.

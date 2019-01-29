@@ -1,0 +1,21 @@
+---
+title: Building a Personal Kubernetes Cluster
+published: 2018-11-25
+teaser: Kubernetes is certainly overkill as a deployment platform for personal projects, but once set up it's very convenient to use, and more importantly a great way to learn and experiment.
+tags: kubernetes, terraform
+toc: true
+---
+
+* Introduction
+My main goal was the following: a kubernetes cluster running an nginx pod, running istio for traffic management, tracking metrics with prometheus and grafana, tracking logs with fluentd+elasticsearch+kibana, with sufficient log parsing that I could see request origin via geoIP in a may in Kibana.
+* Provision resources
+fix headers for etcd
+* Install Istio
+Gateway, scheduling on master via label, let traffic in via hostPath
+* Setting up logging
+the default kubernetes fluentd, es, kibana images: https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/fluentd-elasticsearch
+** viewing kibana
+base url needed configuring to view it via proxy
+** configuring fluentd
+app crashed because "concat" plugin was being used in the configuration.
+any non-trivial log handling that I needed from fluentd required plugins that weren't included, so I made

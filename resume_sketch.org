@@ -1,0 +1,13 @@
+As an Infrastructure Engineer I've worked in a wide variety of areas.
+
+Kubernetes cluster provision, monitoring, and maintenance
+
+AWS administration
+
+Production incident response
+
+build pipeline and deployment automation
+
+local and cloud-based dev environments
+
+Creation of devleoper and pipeline tools with Python.

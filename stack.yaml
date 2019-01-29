@@ -67,4 +67,5 @@ packages:
 
 nix:
   enable: true
-  packages: [zlib, unzip]
+  pure: true
+  shell-file: shell.nix

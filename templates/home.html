@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  $partial("templates/head.html")$
+</head>
+<body>
+
+<div class="skinny-home">
+<div class="brand">
+<div class="brand-left smallHide">
+  <a href="/home.html">
+    fitzsimmons.io
+  </a>
+</div>
+<div id="brand-menu" class="brand-right">
+  <a href="/articles.html">
+    articles
+  </a>
+  <a href="/projects.html">
+  projects
+  </a>
+  <a href="/about.html">
+  about
+  </a>
+  <a href="/resume.html">
+  resume
+  </a>
+</div>
+</div>
+
+<div class="home-wrapper">
+  <div class="headshot-section">
+    <img src="images/headshot.png" class="headshot">
+  </div>
+  <div class="home-text">
+    <div class="home-content">
+    $body$
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="toggle" onclick="menuToggle()" class="bigHide">
+  &#9776;
+</div>
+
+<script type="application/javascript">
+  function menuToggle() {
+      var element = document.getElementById("brand-menu");
+      element.classList.toggle("popup");
+      document.querySelector("body").classList.toggle("noScroll");
+  };
+</script>
+
+</body>
+</html>

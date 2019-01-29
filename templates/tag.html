@@ -1,10 +1,14 @@
-<div class="display-title">
-    $title$
-</div>
-<hr class="accent">
+<main class="articles">
+  <h1 class="page-title" >$title$</h1>
+<hr class="underline">
+<div class="post-list">
 
-<ul class="bare-list">
     $for(posts)$
-	$partial("templates/post-list-item.html")$
+        <div class="post-list-item">
+	    <div class="post-list-date">
+	      $date$
+	    </div>
+	    <a class="post-list-title" href="$url$">$title$</a>
+        </div>
     $endfor$
-</ul>
+</div>

@@ -1,30 +1,44 @@
-<div class="display-title">
-    $title$
-</div>
-<hr class="accent"> <span class="date">$date$</span> $if(tags)$ $tags$ $endif$
-
-<div class="has-text-justified">
-
-
-    <p>
-        $body$
-    </p>
-</div>
-
+<header>
+    <h1>$title$</h1>
+    <hr class="underline">
+</header>
+<main class="post">
+    <summary>
+	<p> $teaser$ </p>
+	<div class="postmeta">
+	    <div class="postmeta-left">
+	      $date$
+	    </div>
+	    <div class="postmeta-right">
+	      $tags$
+	    </div>
+	</div>
+    </summary>
+	$body$
+</main>
 <div class="related">
-    <div class="archive-title" >
-        Related Posts
+  <div class="related-header">
+    <div class="related-header-line">
+      <hr>
     </div>
-
-    <div>
-        $for(related)$
+    <div class="related-header-title">
+      Related Posts
+    </div>
+    <div class="related-header-line">
+      <hr>
+    </div>
+  </div>
+    <div class="related-boxes">
+    $for(related)$
         <div class="related-box">
-            <div class="archive-row">
-                <span class="archive-date" style="margin-bottom: 0px;"> $date$ </span>
-                <a class="post-link" href="$url$">$title$</a>
-                <p class="teaser"> $teaser$ </p>
-            </div>
-        </div>
-        $endfor$
+	  <div>
+	  $date$
+	  <div class="related-title">$title$</div>
+	  <p>
+	  $teaser$
+	  </p>
+	  </div>
+	</div>
+    $endfor$
     </div>
 </div>

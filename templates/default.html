@@ -1,25 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-    $partial("templates/head.html")$
+  $partial("templates/head.html")$
 </head>
 <body>
-    <nav>
-	<a href="/blog.html">
-	$partial("templates/logo.html")$
-	<span>fitzsimmons.io</span>
-	</a>
-	<p>
-	    Cloud infrastructure and devops at <a href="https://www.tempo.io">Tempo</a>. Functional programming enthusiast. Linux nerd.
-	</p>
-	<ul>
-	    <li><a href="/blog.html">Blog</a></li>
-	    <li><a href="/projects.html">Projects</a></li>
-	    <li><a href="/about.html">About</a></li>
-	</ul>
-    </nav>
-    <main>
-        $body$
-    </main>
+
+<div class="wrapper">
+  <div class="brand skinny">
+    <div class="brand-left">
+      <a href="/home.html">
+        fitzsimmons.io
+      </a>
+    </div>
+    <div id="brand-menu" class="brand-right">
+      <a href="/articles.html">
+        articles
+      </a>
+      <a href="/projects.html">
+      projects
+      </a>
+      <a href="/about.html">
+      about
+      </a>
+      <a href="/resume.html">
+      resume
+      </a>
+    </div>
+  </div>
+
+  <div class="body skinny">
+    $body$
+  </div>
+  <footer>
+    <div class="skinny footer-style">
+      All content copyright Matthew Fitzsimmons.
+    </div>
+  </footer>
+</div>
+
+<div id="toggle" onclick="menuToggle()" class="bigHide">
+  &#9776;
+</div>
+
+<script type="application/javascript">
+  function menuToggle() {
+      var element = document.getElementById("brand-menu");
+      element.classList.toggle("popup");
+      document.querySelector("body").classList.toggle("noScroll");
+  };
+</script>
+
+
 </body>
 </html>

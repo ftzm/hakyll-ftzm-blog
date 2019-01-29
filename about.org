@@ -1,0 +1,18 @@
+---
+title: About Me
+---
+* Linguist by education, programmer by trade
+I hold a B.A. in theoretical linguistics from the University of Victoria, Canada. After graduation I changed course and pursued a career in IT, which had long been a passion of mine. I now work as an infrastructure engineer at [[https://www.tempo.io][Tempo]], where I develop solutions for our cloud infrastructure and CI/CD pipeline.
+
+I've been using Linux as my sole desktop OS for more that ten years. I am a long-time Arch Linux user, but recently I've been experimenting with NixOs as well. I work mainly in Python, but I am enamored of functional programming and try to write Haskell whenever I can.
+
+* Extracurricular Activities
+A good deal of my free time is spent on personal programming or computer projects. The best of these can be found on the projects page.
+
+I have long made a hobby out of learning languages. My current focus is Irish Gaelic. I have seriously studied Icelandic and Japanese, and I managed to acquire a fair amount of Danish and Swedish as well. I've also dabbled in Latin, Ancient Greek, Classical Japanese, and Russian.
+
+My enthusiasm for a wide range of musical genres has recently found expression in a growing vinyl collection.
+
+I find physical activity to be a very necessary counterpoint to my more sedentary activities. I've alternated between running, cycling, bodyweight fitness and aerobics for years. I recently put Brazilian Jiujitsu into rotation as well. I've If I'm close to nature I'm likely to be hiking and camping as well.
+* Contact
+You can contact me via [[https://www.linkedin.com/in/matthew-fitzsimmons-4a5b68103][LinkedIn]].
