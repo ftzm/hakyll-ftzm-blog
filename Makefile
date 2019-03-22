@@ -35,30 +35,22 @@ GIT_TAG_CURRENT = $(shell git describe --exact-match --abbrev=0 2>/dev/null)
 GIT_TAG_PREVIOUS = $(or $(shell git describe --abbrev=0 HEAD^ 2>/dev/null), 0.0.0)
 GIT_TAG_NEW = $(shell $(SEMVER) -$(or $(SEMVER_FLAG),p) $(GIT_TAG_PREVIOUS))
 RELEASE_TYPE = $(shell $(COMMIT_RELEASE))
+semver.patch := p
+semver.minor := m
+semver.major := M
+SEMVER_FLAG = $(semver.$(t))
 
 tag:
-ifneq ($(GIT_TAG_CURRENT),)
+ifneq ($(RELEASE_TYPE),)
+	@echo $(RELEASE_TYPE)
+  ifneq ($(GIT_TAG_CURRENT),)
 	@echo Current commit is tagged $(GIT_TAG_CURRENT), skipping
-else
+  else
 	git tag -a $(VERSION) -m "Official release $(VERSION)"
+  endif
+else
+	@echo Commit not tagged for release
 endif
 
 release: VERSION = $(or $(GIT_TAG_CURRENT), $(GIT_TAG_NEW))
 release: tag make
-
-patch: RELEASE_TYPE := patch
-patch: SEMVER_FLAG := p
-
-minor: RELEASE_TYPE := minor
-minor: SEMVER_FLAG := m
-
-major: RELEASE_TYPE := major
-major: SEMVER_FLAG := M
-
-major minor patch: release
-
-message:
-	@echo $(GIT_COMMIT_MESSAGE)
-
-testreg:
-	@echo test
