@@ -15,9 +15,9 @@ stack-make:
 	stack exec ftzm-blog rebuild
 
 docker-build: DOCKER_TAG = $(DOCKER_BASE_TAG)$(if $(VERSION),-$(VERSION),)
-docker-build: stack-make
 docker-build:
-ifneq ($(shell docker images -q $(DOCKER_TAG) 2>/dev/null),)
+ifeq ($(shell docker images -q $(DOCKER_TAG) 2>/dev/null),"")
+	@echo $(shell docker images -q $(DOCKER_TAG) 2>/dev/null)
 	@echo Docker image tagged $(DOCKER_TAG) already exists
 else
 	docker build -t $(DOCKER_TAG) .
@@ -29,28 +29,45 @@ make: stack-make docker-build
 # ----------------------------------------------------------------------
 # Release
 
-SEMVER := ./scripts/semver.sh
+EMPTY_VERSION = 0.0.0
+
+# Get release flag from commit message.
+# A commit is flagged for release if the message contains the following:
+# release: patch/minor/major
 COMMIT_RELEASE := ./scripts/commit_release.sh
-GIT_TAG_CURRENT = $(shell git describe --exact-match --abbrev=0 2>/dev/null)
-GIT_TAG_PREVIOUS = $(or $(shell git describe --abbrev=0 HEAD^ 2>/dev/null), 0.0.0)
-GIT_TAG_NEW = $(shell $(SEMVER) -$(or $(SEMVER_FLAG),p) $(GIT_TAG_PREVIOUS))
 RELEASE_TYPE = $(shell $(COMMIT_RELEASE))
-semver.patch := p
-semver.minor := m
-semver.major := M
-SEMVER_FLAG = $(semver.$(t))
+
+# Existing git tags
+GIT_TAG_CURRENT = $(shell git describe --exact-match --abbrev=0 2>/dev/null)
+GIT_TAG_PREVIOUS = $(shell git describe --abbrev=0 HEAD^ 2>/dev/null)
+
+# Generate new version tag from release type and previous tag
+SEMVER := ./scripts/semver.sh
+FLAG.patch := p
+FLAG.minor := m
+FLAG.major := M
+SEMVER_FLAG = $(FLAG.$(RELEASE_TYPE))
+PREVIOUS_VERSION = $(or $(GIT_TAG_PREVIOUS),$(EMPTY_VERSION))
+GIT_TAG_NEW = $(shell $(SEMVER) -$(SEMVER_FLAG) $(PREVIOUS_VERSION))
+
+# Determine version. One of the following:
+# Current: if the current commit is already tagged.
+# New: if the current commit is flagged for release and but untagged
+# None: of the current commit is neither flagged for release nor tagged.
+VERSION = $(if $(RELEASE_TYPE),$(or $(GIT_TAG_CURRENT), $(GIT_TAG_NEW)),)
 
 tag:
-ifneq ($(RELEASE_TYPE),)
-	@echo $(RELEASE_TYPE)
+ifneq ($(VERSION),)
   ifneq ($(GIT_TAG_CURRENT),)
-	@echo Current commit is tagged $(GIT_TAG_CURRENT), skipping
+	@echo Current commit tagged already tagged $(GIT_TAG_CURRENT), skipping
   else
-	git tag -a $(VERSION) -m "Official release $(VERSION)"
+	@echo Current commit flagged  with release: $(RELEASE_TYPE)
+	@echo Previous version: $(PREVIOUS_VERSION)
+	@echo Tagging with new version: $(VERSION)
+	$(shell git tag -a $(VERSION) -m "Official release $(VERSION)")
   endif
 else
-	@echo Commit not tagged for release
+	@echo Current commit not flagged for release
 endif
 
-release: VERSION = $(or $(GIT_TAG_CURRENT), $(GIT_TAG_NEW))
-release: tag make
+release: tag
