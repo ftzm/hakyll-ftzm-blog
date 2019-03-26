@@ -24,10 +24,10 @@ else
 	docker push $(DOCKER_TAG)
 endif
 
-make: stack-make docker-build
+make: tag stack-make docker-build
 
 # ----------------------------------------------------------------------
-# Release
+# Tag releases
 
 EMPTY_VERSION = 0.0.0
 
@@ -69,5 +69,3 @@ ifneq ($(VERSION),)
 else
 	@echo Current commit not flagged for release
 endif
-
-release: tag
