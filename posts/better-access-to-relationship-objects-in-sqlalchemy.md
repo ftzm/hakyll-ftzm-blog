@@ -11,21 +11,21 @@ The design of my application is such that exercises can be associated with multi
 
 ```Python
 class RoutineDayExercise(db.Model):
-__tablename__ = 'routineday_exercises'
-routineday_id = db.Column(db.Integer, db.ForeignKey('routinedays.id'), primary_key=True)
-exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id'), primary_key=True)
-order = db.Column(db.Integer)
+    __tablename__ = 'routineday_exercises'
+    routineday_id = db.Column(db.Integer, db.ForeignKey('routinedays.id'), primary_key=True)
+    exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id'), primary_key=True)
+    order = db.Column(db.Integer)
 ```
 
 However, the standard way to configure these objects, with the combined foreign keys of the related tables constituting the primary keys, was awkward for my setup. The order of an exercise can be manually set by the user at any time, and deleting or re-arranging exercises mean that the order of all exercises in a routine must be frequently adjusted. It's therefore more convenient to access the relationship object directly rather than by going through an Exercise or Routine every time. To this end I eschewed the standard setup and created a table of RoutineExercises wherein each row has its own id and primary key, and the relationship comprises a pair of simple foreign keys.
 
 ```Python
 class RoutineDayExercise(db.Model):
-__tablename__ = 'routineday_exercises'
-id = db.Column(db.Integer, primary_key=True)
-routineday_id = db.Column(db.Integer, db.ForeignKey('routinedays.id'))
-exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id'))
-order = db.Column(db.Integer)
+    __tablename__ = 'routineday_exercises'
+    id = db.Column(db.Integer, primary_key=True)
+    routineday_id = db.Column(db.Integer, db.ForeignKey('routinedays.id'))
+    exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id'))
+    order = db.Column(db.Integer)
 ```
 
 This setup made the the kinds of operations I had to implement much simpler.The only downside of such a setup is that the database does not automatically protect against duplicate entries as it would with the foreign key - primary key pair. This, however, is easily remedied by manually preventing duplicates in the method for adding new relationships, and/or by simply not presenting users with the ability to create duplicate relationships in the first place. In my case, when users add new exercises to a routine they're only presented with exercises that have yet to be added, which itself prevents duplicates.

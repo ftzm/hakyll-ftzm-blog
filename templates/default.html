@@ -5,6 +5,10 @@
 </head>
 <body>
 
+<div id="toggle" onclick="menuToggle()" class="topbar bigHide">
+  <span class="logo">fitzsimmons.io</span><span class="burger">&#9776;</span>
+</div>
+
 <nav>
   <img src="/images/square-headshot.jpg" class="headshot">
   <ul>
@@ -36,17 +40,11 @@
 </main>
 
 
-<div id="brand-menu" class="brand-right">
-</div>
-
-<div id="toggle" onclick="menuToggle()" class="bigHide">
-  &#9776;
-</div>
-
 <script type="application/javascript">
   function menuToggle() {
-      var element = document.getElementById("brand-menu");
-      element.classList.toggle("popup");
+      var element = document.querySelectorAll("nav")[0];
+      //var element = document.getElementById("brand-menu");
+      element.classList.toggle("full-nav");
       document.querySelector("body").classList.toggle("noScroll");
   };
 </script>

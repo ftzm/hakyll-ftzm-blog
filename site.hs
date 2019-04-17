@@ -22,7 +22,7 @@ main = hakyll $ do
 
     match "index.html" $ do
         route idRoute
-        compile $ makeItem $ Redirect "home.html"
+        compile $ makeItem $ Redirect "articles.html"
 
     match (fromList ["about.org", "projects.org", "resume.org", "404.org"]) $ do
         route   $ setExtension "html"
@@ -79,12 +79,6 @@ main = hakyll $ do
                 >>= applyAsTemplate blogCtx
                 >>= loadAndApplyTemplate "templates/default.html" blogCtx
                 >>= relativizeUrls
-
-    match "home.org" $ do
-        route   $ setExtension "html"
-        compile $ pandocCompiler
-            >>= loadAndApplyTemplate "templates/home.html" defaultContext
-            >>= relativizeUrls
 
   where
     withToc = defaultHakyllWriterOptions

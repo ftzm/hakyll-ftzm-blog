@@ -15,9 +15,9 @@ If, however, one is using a custom bar script, workspace names can be assigned t
 names=(main web dev term mus)
 
 if [ $[num-1] -lt ${#names[@]} ] ; then
-name="${names[num-1]}"
+    name="${names[num-1]}"
 else
-name="${num}"
+    name="${num}"
 fi
 ```
 

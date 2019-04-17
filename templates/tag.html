@@ -1,14 +1,14 @@
-<main class="articles">
-  <h1 class="page-title" >$title$</h1>
-<hr class="underline">
-<div class="post-list">
+<h1 class="page-title" >$title$</h1>
+<br>
 
-    $for(posts)$
-        <div class="post-list-item">
-	    <div class="post-list-date">
-	      $date$
-	    </div>
-	    <a class="post-list-title" href="$url$">$title$</a>
-        </div>
-    $endfor$
-</div>
+<ul class="related">
+  $for(posts)$
+  <li>
+    <a href="$url$">
+      <span class="title">$title$</span>
+      <span class="date">$date$</span>
+      <span class="teaser">$teaser$</span>
+    </a>
+  </li>
+  $endfor$
+</ul>

@@ -1,44 +1,20 @@
-<header>
-    <h1>$title$</h1>
-    <hr class="underline">
-</header>
-<div class="post">
-    <summary>
-	<p> $teaser$ </p>
-	<div class="postmeta">
-	    <div class="postmeta-left">
-	      $date$
-	    </div>
-	    <div class="postmeta-right">
-	      $tags$
-	    </div>
-	</div>
-    </summary>
-	$body$
-</div>
-<div class="related">
-  <div class="related-header">
-    <div class="related-header-line">
-      <hr>
-    </div>
-    <div class="related-header-title">
-      Related Posts
-    </div>
-    <div class="related-header-line">
-      <hr>
-    </div>
-  </div>
-    <div class="related-boxes">
-    $for(related)$
-        <div class="related-box">
-	  <div>
-	  $date$
-	  <div class="related-title">$title$</div>
-	  <p>
-	  $teaser$
-	  </p>
-	  </div>
-	</div>
-    $endfor$
-    </div>
-</div>
+<article>
+<h1 class="article-title">$title$</h1>
+<hr class="underline">
+<span class="date">$date$</span>
+<span class="tags">$tags$</span>
+<p class="teaser">$teaser$</p>
+$body$
+</article>
+<h1 class="related-title">Related Posts</h1><br>
+<ul class="related">
+  $for(related)$
+  <li>
+    <a href="$url$">
+      <span class="title">$title$</span>
+      <span class="date">$date$</span>
+      <span class="teaser">$teaser$</span>
+    </a>
+  </li>
+  $endfor$
+</ul>

@@ -1,25 +1,63 @@
 ---
-title: Org mode and hakyll, holy smokes
+title: Org mode and hakyll
 published: 2018-05-01
 teaser: Writing hakyll posts with org mode works well and allows a great emacs-based workflow.
 tags: hakyll, org, emacs
 ---
 
-* This is a big title
-Here is where the text which would be the intro to the article would live. Noice.
-** This is smaller
+* Introduction
+Since adopting Emacs I've begun using org mode extensively for note-taking and personal organization. It's a natural choice for outlining an article or blog post, and what's more, Hakyll (using Pandoc) will compile org files just as readily as it will markdown.
+* Features
+Org markup is too rich to be completely converted to html, but a respectable subset is. Here are some examples:
+** Subheadings
+Pandoc will support up to sub-sub-headings, but no more.
+*** Subsubheading one
+He doesn't have much to say.
+*** Subsubheading two
+** Lists
 This is the first section.
 This is a list:
 - this is a list
 - another element
 - another element
-*** this is smaller still
+
+1. The attack of the Rohirrim
+2. Eowyn's fight with the witch king
+3. Peter Jackson being shot by Legolas
+
+But in the end, no individual scenes matter but the film as a whole.
+Important actors in this film are:
+- Elijah Wood :: He plays Frodo
+- Sean Astin :: He plays Sam, Frodo's friend.  I still remember
+  him very well from his role as Mikey Walsh in The Goonies.
+
 ** Source
 Wouldn't it be interesting to see some source?
 Here's some now:
-
-#+BEGIN_SRC haskell :results output
+#+BEGIN_SRC haskell
 factorial :: Int -> Int
 factorial 0 = 1
 factorial n = n * factorial (n - 1)
 #+END_SRC
+
+Org mode is smart enough to correctly highlight the code-block in org-mode itself, so you don't publish embarassing typos. Just one more thing to be impressed by.
+
+** Quote
+This is a quote:
+
+#+BEGIN_QUOTE
+Everything should be made as simple as possible,
+but not any simpler ---Albert Einstein
+#+END_QUOTE
+
+** Table
+
+My CSS may not do this justice, but this a proper table.
+| A | B | Long C Column | D |
+|---+---+---------------+---|
+| 1 | 2 |             3 |4  |
+
+I remember back in the day when you would create your whole page layout with these bad boys. Then these upstarts named "divs" came along...
+
+* In sum
+For
