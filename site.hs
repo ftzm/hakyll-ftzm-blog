@@ -59,7 +59,7 @@ main = hakyll $ do
                 Just _ -> pandocCompilerWith defaultHakyllReaderOptions withToc
                 Nothing -> pandocCompiler
           ps <- loadAll ("posts/*" .&&. hasVersion "meta") :: Compiler [Item String]
-          let ctx = tagsCtx tags <> postCtx <> listField "posts" postCtx (return ps) <> relatedPostsCtx ps 2
+          let ctx = tagsCtx tags <> postCtx <> relatedPostsCtx ps 2
           compiler
             >>= loadAndApplyTemplate "templates/post.html" ctx
             >>= loadAndApplyTemplate "templates/default.html" ctx
@@ -133,7 +133,11 @@ renderLink tag (Just filePath) =
 --------------------------------------------------------------------------------
 -- Related Posts
 
-relatedPostsCtx :: [Item String] -> Int -> Context String
+-- |A context that adds related posts under "related"
+relatedPostsCtx
+  :: [Item String] -- ^ List of post items
+  -> Int           -- ^ Number of related posts to collect
+  -> Context String
 relatedPostsCtx posts n = listFieldWith "related" postCtx selectPosts
   where
     rateItem ts i = length . filter (`elem` ts) <$> (getTags $ itemIdentifier i)

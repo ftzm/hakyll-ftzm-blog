@@ -87,7 +87,9 @@ td, th {
     padding: 10px;
 }
 
-
+.underline {
+    text-decoration: underline;
+}
 
 
 
@@ -461,7 +463,7 @@ article h2:before {
     width: 100%;
 }
 
-.underline {
+.underline-acc {
     display: block;
     width: 30%;
     height: 0.2rem;
@@ -622,7 +624,7 @@ article h2:before {
 
 
   }
-  .underline {
+  .underline-acc {
       margin: 2.5rem 0 2.5rem 0;
   }
 

@@ -1,6 +1,9 @@
+DOCKER_ACCOUNT := ftzm
 DOCKER_REPO := blog
 COMMIT_HASH = $(shell git rev-parse --short=10 HEAD)
 DOCKER_BASE_TAG = $(DOCKER_REPO):$(COMMIT_HASH)
+
+make: tag stack-make docker-build
 
 watch:
 	./watch.sh
@@ -14,17 +17,16 @@ stack-make:
 	@echo Generating static files
 	stack exec ftzm-blog rebuild
 
-docker-build: DOCKER_TAG = $(DOCKER_BASE_TAG)$(if $(VERSION),-$(VERSION),)
+docker-build: DOCKER_TAG = $(DOCKER_ACCOUNT)/$(DOCKER_BASE_TAG)$(if $(VERSION),-$(VERSION),)
 docker-build:
 ifeq ($(shell docker images -q $(DOCKER_TAG) 2>/dev/null),"")
 	@echo $(shell docker images -q $(DOCKER_TAG) 2>/dev/null)
 	@echo Docker image tagged $(DOCKER_TAG) already exists
 else
+	-docker rm $(DOCKER_TAG) -f
 	docker build -t $(DOCKER_TAG) .
-	docker push $(DOCKER_TAG)
 endif
-
-make: tag stack-make docker-build
+	docker push $(DOCKER_TAG)
 
 # ----------------------------------------------------------------------
 # Tag releases

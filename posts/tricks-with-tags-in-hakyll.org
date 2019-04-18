@@ -82,12 +82,44 @@ This function is treated slightly differently than plain ~tagsRules~. This diffe
                 >>= loadAndApplyTemplate "templates/default.html" ctx
                 >>= relativizeUrls
 #+end_src
-* Finding the posts
+* Gathering related posts
+Now that we've compiled a separate list of posts, we need a way to get related ones into the context for our post template. For that we need to write a context function. Here's a bit of a code dump showing how I accomplished this.
+
 #+begin_src haskell
+-- |A context that adds related posts under "related"
+relatedPostsCtx
+  :: [Item String] -- ^ List of post items
+  -> Int           -- ^ Number of related posts to collect
+  -> Context String
+relatedPostsCtx posts n = listFieldWith "related" postCtx selectPosts
+  where
+    rateItem ts i = length . filter (`elem` ts) <$> (getTags $ itemIdentifier i)
+    selectPosts s = do
+      postTags <- getTags $ itemIdentifier s
+      let trimmedItems = filter (not . matchPath s) posts --exclude current post
+      take n . reverse <$> sortOnM (rateItem postTags) trimmedItems
+
+-- |Compare two items for equality based on their filepaths
+matchPath :: Item String -> Item String -> Bool
+matchPath x y = eqOn (toFilePath . itemIdentifier) x y
+
 eqOn :: Eq b => (a -> b) -> a -> a -> Bool
 eqOn f x y = f x == f y
-#+end_src
-#+begin_src haskell
+
 sortOnM :: (Monad m, Ord b) => (a -> m b) -> [a] -> m [a]
 sortOnM f xs = map fst . sortBy (comparing snd) . zip xs <$> mapM f xs
+#+end_src
+
+The last step is to apply this context in your post compilation section. Here's what that looks like for me; adapting this should be quite straightforward.
+
+#+begin_src haskell
+    match "posts/*" $ version "html" $ do
+        route $ setExtension "html"
+        compile $ do
+          ps <- loadAll ("posts/*" .&&. hasVersion "meta") :: Compiler [Item String]
+          let ctx = tagsCtx tags <> postCtx <> relatedPostsCtx ps 2
+          compiler
+            >>= loadAndApplyTemplate "templates/post.html" ctx
+            >>= loadAndApplyTemplate "templates/default.html" ctx
+            >>= relativizeUrls
 #+end_src
