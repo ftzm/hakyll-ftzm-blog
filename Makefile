@@ -15,6 +15,7 @@ stack-build:
 stack-make: stack-build
 stack-make:
 	@echo Generating static files
+	stack exec sass css/mystyles.scss:css/mystyles.css
 	stack exec ftzm-blog rebuild
 
 docker-build: DOCKER_TAG = $(DOCKER_ACCOUNT)/$(DOCKER_BASE_TAG)$(if $(VERSION),-$(VERSION),)
