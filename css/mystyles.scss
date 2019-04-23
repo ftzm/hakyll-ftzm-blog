@@ -288,7 +288,7 @@ nav {
     text-align: right;
 
     img {
-	padding-top: 70px;
+	padding-top: 5vh;
 	padding-left: 30%;
 	margin-bottom: 2vh;
     }
@@ -337,6 +337,7 @@ main {
 	font-weight: 600;
     }
 
+
     .date {
 	color: #aaa;
 	padding-top: 1rem;
@@ -354,8 +355,8 @@ main {
 	border-bottom: 1px solid #eee;
     }
 
-    li:first-of-type {
-	margin-top: -40px;
+    li:first-of-type a {
+	padding-top: 0;
     }
 
 }

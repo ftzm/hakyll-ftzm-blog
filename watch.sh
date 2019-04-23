@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Automatically recompile sass on change
-stack exec sass --watch css/mystyles.scss:css/mystyles.css &
+stack exec sass -- --watch css/mystyles.scss:css/mystyles.css &
 
 # Start initial server. This can handle all changes but those to site.hs
 stack exec ftzm-blog watch -- --host "0.0.0.0" &
