@@ -6,7 +6,7 @@ DOCKER_BASE_TAG = $(DOCKER_REPO):$(COMMIT_HASH)
 make: tag stack-make docker-build
 
 watch:
-	./watch.sh
+	./scripts/watch.sh
 
 stack-build:
 	@echo Making binary

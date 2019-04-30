@@ -1,0 +1,68 @@
+code, tt {
+  padding: 0;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin: 0;
+  font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 10pt;
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 3px;
+}
+pre > code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: 0;
+  background: transparent;
+}
+pre {
+  padding: 16px;
+  margin-top: 0;
+  margin-bottom: 0;
+  background-color: #f8f8f8;
+  font-size: 10pt;
+  line-height: 19px;
+  overflow: auto;
+  border-radius: 3px;
+}
+pre code, pre tt {
+  background-color: transparent;
+  border: 0;
+}
+code::before, code::after,
+tt::before, tt::after {
+  letter-spacing: -0.2em;
+	content: "\00a0";
+}
+pre code::before, pre code::after, pre tt::before, pre tt::after {
+	content: normal;
+}
+code > span.kw { color: #a71d5d; font-weight: normal; } /* Keyword */
+code > span.dt { color: inherit; } /* DataType */
+code > span.dv { color: #0086b3; } /* DecVal */
+code > span.bn { color: #0086b3; } /* BaseN */
+code > span.fl { color: #0086b3; } /* Float */
+code > span.ch { color: #183691; } /* Char */
+code > span.st { color: #183691; } /* String */
+code > span.co { color: #969896; font-style: normal; } /* Comment */
+code > span.ot { color: #a71d5d; } /* Other */
+code > span.al { color: #ff0000; } /* Alert */
+code > span.fu { color: #795da3; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #969896; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #183691; } /* SpecialChar */
+code > span.vs { color: #183691; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #a71d5d; font-weight: normal; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #0086b3; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #969896; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #969896; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #969896; font-weight: bold; font-style: italic; } /* Information */
