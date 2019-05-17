@@ -416,7 +416,7 @@ article h2:before {
   main {
     border: none;
     padding: 0;
-    margin: 2rem 2vw 0 2vw; }
+    margin: 1.5rem 2vw 0 2vw; }
 
   article .teaser {
     margin: 1.5rem 0 1.5rem 0; }
@@ -435,8 +435,6 @@ article h2:before {
       grid-column: initial;
       grid-row: 2;
       padding-top: 1rem; }
-  .articles li:first-of-type {
-    margin-top: -25px; }
 
   .underline-acc {
     margin: 2.5rem 0 2.5rem 0; }
