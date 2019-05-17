@@ -1,0 +1,27 @@
+let simpleDeployment = ./simpleDeployment
+let mkIstioService = ./mkIstioService
+let Doc = ./Doc.dhall
+
+let tag = env:TEST as Text
+
+let deployment =
+  simpleDeployment
+  { name = "blog"
+  , tag = tag
+  , port = 80
+  }
+
+let service =
+  mkIstioService
+  { name = "blog"
+  , ports =
+    [ { targetPort = 80
+	  , port = 80
+	  , name = "http"
+	  }
+	]
+  }
+
+in [ Doc.Deployment deployment
+   , Doc.Service service
+   ]

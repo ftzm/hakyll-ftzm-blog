@@ -5,18 +5,18 @@ DOCKER_BASE_TAG = $(DOCKER_REPO):$(COMMIT_HASH)
 
 make: tag stack-make docker-build
 
-watch:
+run:
 	./scripts/watch.sh
 
 stack-build:
 	@echo Making binary
-	stack build
+	cd src; stack build
 
 stack-make: stack-build
 stack-make:
 	@echo Generating static files
-	stack exec sass css/mystyles.scss:css/mystyles.css
-	stack exec ftzm-blog rebuild
+	cd src; stack exec sass css/mystyles.scss:css/mystyles.css
+	cd src; stack exec ftzm-blog rebuild
 
 docker-build: DOCKER_TAG = $(DOCKER_ACCOUNT)/$(DOCKER_BASE_TAG)$(if $(VERSION),-$(VERSION),)
 docker-build:
@@ -67,8 +67,25 @@ ifneq ($(VERSION),)
 	@echo Current commit flagged  with release: $(RELEASE_TYPE)
 	@echo Previous version: $(PREVIOUS_VERSION)
 	@echo Tagging with new version: $(VERSION)
-	$(shell git tag -a $(VERSION) -m "Official release $(VERSION)")
+	git tag -a $(VERSION) -m "Official release $(VERSION)"
   endif
 else
 	@echo Current commit not flagged for release
 endif
+
+# ----------------------------------------------------------------------
+# Deploy
+
+export DOCKER_TAG = $(DOCKER_ACCOUNT)/$(DOCKER_BASE_TAG)$(if $(VERSION),-$(VERSION),)
+
+PRELUDE := ./k8s/dhall-lang/Prelude/package.dhall
+MKDOCS := dhall-to-yaml --omitEmpty --documents <<< './k8s/service.dhall'
+APPLY := kubectl apply -f -
+
+deploy: export DHALL_PRELUDE := $(PRELUDE)
+deploy:
+	@$(MKDOCS) | $(APPLY)
+
+print-deploy: export DHALL_PRELUDE := $(PRELUDE)
+print-deploy:
+	$(MKDOCS)
