@@ -1,4 +1,4 @@
-let mkService = ./mkService.dhall
+let mkService = ./service_utils/k8s/mkService.dhall
 
 let tag = env:DOCKER_TAG as Text
 
