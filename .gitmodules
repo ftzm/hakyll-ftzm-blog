@@ -1,0 +1,3 @@
+[submodule "service_utils"]
+	path = service_utils
+	url = git@github.com:ftzm/service_utils.git
