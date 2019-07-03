@@ -1,19 +1,11 @@
 include service_utils/make/utils.mk
 
-DOCKER_ACCOUNT := ftzm
-DOCKER_REPO := blog
+DOCKER_REPO := ftzm
+DOCKER_NAME := blog
 
-make: tag stack-make docker-build
+.DEFAULT_GOAL := make
 
-run:
-	./scripts/watch.sh
+make: tag nix-docker-build
 
-stack-build:
-	@echo Making binary
-	cd src; stack build
-
-stack-make: stack-build
-stack-make:
-	@echo Generating static files
-	cd src; stack exec sass css/mystyles.scss:css/mystyles.css
-	cd src; stack exec ftzm-blog rebuild
+watch:
+	nix run -f default.nix generator -c generate-site watch
