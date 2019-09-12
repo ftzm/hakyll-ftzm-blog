@@ -55,7 +55,7 @@ in rec {
       export LANG=en_US.UTF-8
       generate-site build
 
-      cp -r _site/* $out
+      cp -r _site $out
     '';
   };
   # ----------------------------------------------------------------------------
