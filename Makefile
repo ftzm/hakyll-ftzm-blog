@@ -1,9 +1,10 @@
-include service_utils/make/utils.mk
-
-DOCKER_REPO := ftzm
-DOCKER_NAME := blog
+include $(shell nix-shell ../service_utils/shell.nix --run "")
 
 .DEFAULT_GOAL := make
+
+NAME := blog
+DOCKER_REPO := ftzm
+DOCKER_NAME := $(NAME)
 
 make: tag nix-docker-build
 

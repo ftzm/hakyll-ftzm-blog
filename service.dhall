@@ -1,9 +1,6 @@
-let mkService = ./service_utils/k8s/mkService.dhall
-
 let tag = env:DOCKER_TAG as Text
 
-in  mkService
-	{ name =
+in  { name =
 		"blog"
 	, port =
 		80

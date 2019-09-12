@@ -24,7 +24,7 @@ in rec {
     src = ./src;
     phases = "unpackPhase buildPhase";
     buildInputs = [
-      (pkgs.haskellPackages.ghcWithPackages (p:
+      (pkgs_19_03.haskellPackages.ghcWithPackages (p:
       with p; [
         hakyll
         blaze-html
