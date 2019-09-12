@@ -2,7 +2,7 @@
 title: About Me
 ---
 * Linguist by education, programmer by trade
-I hold a B.A. in theoretical linguistics from the University of Victoria, Canada. After graduation I changed course and pursued a career in IT, which had long been a passion of mine. I now work as a backend engineer at [[https://www.falcon.io][Falcon]], where I hepl build and maintain a multi-platform data-aggregation pipeline.
+I hold a B.A. in theoretical linguistics from the University of Victoria, Canada. After graduation I changed course and pursued a career in IT, which had long been a passion of mine. I now work as a backend engineer at [[https://www.falcon.io][Falcon]], where I help build and maintain a multi-platform data-aggregation pipeline.
 
 I've been using Linux as my sole desktop OS for more that ten years. I am a long-time Arch Linux user, but recently I've been experimenting with NixOs as well. I work mainly in Python, but I am enamored of functional programming and try to write Haskell whenever I can.
 
